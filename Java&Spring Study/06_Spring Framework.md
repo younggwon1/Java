@@ -589,7 +589,9 @@ import org.junit.Test;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.support.GenericXmlApplicationContext;
 
+import myspring.di.xml.Hello;
 import myspring.di.xml.Printer;
+import myspring.di.xml.StringPrinter;
 
 public class HelloBeanJunitTest {
 	/**
@@ -646,7 +648,9 @@ import org.junit.Test;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.support.GenericXmlApplicationContext;
 
+import myspring.di.xml.Hello;
 import myspring.di.xml.Printer;
+import myspring.di.xml.StringPrinter;
 
 public class HelloBeanJunitTest {
 	BeanFactory factory;
