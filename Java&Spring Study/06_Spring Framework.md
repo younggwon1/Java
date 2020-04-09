@@ -257,6 +257,10 @@ tomcat 서버 더블클릭
 
 
 
+![캡처](https://user-images.githubusercontent.com/42603919/78897913-e77ed000-7aad-11ea-8035-8e67f5cfcdfb.PNG)
+
+
+
 ![캡처](https://user-images.githubusercontent.com/42603919/78858064-4a4c7900-7a66-11ea-9737-2a9153abfbef.PNG)
 
 
