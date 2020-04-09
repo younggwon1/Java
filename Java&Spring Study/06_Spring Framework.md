@@ -879,3 +879,7 @@ public class HelloBeanSpringTest {
 #### 참고
 
 [https://moolgogiheart.tistory.com/87](https://moolgogiheart.tistory.com/87)
+
+#### 오류수정 
+
+[Class not found](https://javagirl.tistory.com/3)
