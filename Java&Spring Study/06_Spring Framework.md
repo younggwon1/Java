@@ -8,7 +8,7 @@
 
 
 
-> 자바 플랫폼을 위한 **오픈소스 애플리케이션 프레임워크**로서 **스프링(Spring)**이라고도 불린다.
+> 자바 플랫폼을 위한 **오픈소스 애플리케이션 프레임워크**로서  **스프링(Spring)**이라고도 불린다.
 >
 > **동적인 웹 사이트를 개발**하기 위한 여러 가지 서비스를 제공한다. 
 
@@ -78,7 +78,7 @@
 
 ### Tomcat
 
-[download][https://tomcat.apache.org/download-80.cgi#8.5.53]
+[download](https://tomcat.apache.org/download-80.cgi#8.5.53)
 
 Core -> zip 다운로드
 
