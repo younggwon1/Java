@@ -570,7 +570,7 @@ spring_beans.xml 파일
 	<!-- scope : singleton, prototype, request, session -->
 	<bean id="hello" class="myspring.di.xml.Hello" scope="singleton">
 		<!-- setter injection -->
-		<property name="name" value="스프링" />
+		<property name="name" value="Spring" />
 		<property name="printer" ref="sPrinter" />
 	</bean>
 </beans>
@@ -678,12 +678,12 @@ public class HelloBeanJunitTest {
 		//2.1 Assert.assertSame() 메서드를 사용해서 주소 비교
 		assertSame(hello, hello2);
 		//2.2 Assert.assertEquals() 메서드를 사용해서 값을 비교
-		assertEquals("Hello 스프링", hello.sayHello());
+		assertEquals("Hello Spring", hello.sayHello());
 		
 		hello.print();
 		//3. Container에게 StringPrinter Bean을 요청
 		Printer printer = factory.getBean("sPrinter", Printer.class);
-		assertEquals("Hello 스프링", printer.toString());
+		assertEquals("Hello Spring", printer.toString());
 	}
 	
 	
