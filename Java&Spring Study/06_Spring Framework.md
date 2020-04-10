@@ -569,7 +569,7 @@ spring_beans.xml 파일
 	<!-- scope 추가 -->
 	<!-- scope : singleton, prototype, request, session -->
 	<bean id="hello" class="myspring.di.xml.Hello" scope="singleton">
-		<!-- setter injection -->
+		<!-- setter injection : default constructor를 사용해서 객체를 생성 -->
 		<property name="name" value="Spring" />
 		<property name="printer" ref="sPrinter" />
 	</bean>
