@@ -291,15 +291,15 @@ import java.util.List;
 
 public class Hello {
 	String name;
-	Printer printer; //상위 인터페이스만 의존한다.
+	Printer printer;
 	List<String> names;
 
 	public Hello() {
-		System.out.println("hello default constructor called...");
+		System.out.println("Hello Default Constructor called...");
 	}
 
 	public Hello(String name, Printer printer) {
-		System.out.println("overloading hello constructor called...");
+		System.out.println("OverLoading Hello Constructor called..");
 		this.name = name;
 		this.printer = printer;
 	}
@@ -313,12 +313,12 @@ public class Hello {
 	}
 
 	public void setName(String name) {
-		System.out.println("hello setName() called..." + name);
+		System.out.println("Hello setName() called.." + name);
 		this.name = name;
 	}
 
 	public void setPrinter(Printer printer) {
-		System.out.println("hello setPrinter() called" + printer.getClass().getName());
+		System.out.println("Hello setPrinter() called.." + printer.getClass().getName());
 		this.printer = printer;
 	}
 
@@ -331,6 +331,7 @@ public class Hello {
 	}
 
 }
+
 ```
 
 
@@ -566,14 +567,14 @@ spring_beans.xml 파일
 	
 	<!-- Hello 클래스를 Bean으로 설정 -->
 	<!-- scope 추가 -->
-	<!-- scope : 1. singleton, 2. prototype, 3. request, 4. session -->
+	<!-- scope : singleton, prototype, request, session -->
 	<bean id="hello" class="myspring.di.xml.Hello" scope="singleton">
-		<!-- setter Injection -->
-	 	<property name="name" value="Spring"/>
-	 	<property name="printer" ref="sPrinter"/>
+		<!-- setter injection -->
+		<property name="name" value="스프링" />
+		<property name="printer" ref="sPrinter" />
 	</bean>
-	
 </beans>
+
 ```
 
 
@@ -642,7 +643,9 @@ public class HelloBeanJunitTest {
 # HelloBeanJunitTest.java
 package myspring.di.xml.test;
 
-import org.junit.Assert;
+//static import : static method import
+import static org.junit.Assert.*;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.BeanFactory;
@@ -650,53 +653,40 @@ import org.springframework.context.support.GenericXmlApplicationContext;
 
 import myspring.di.xml.Hello;
 import myspring.di.xml.Printer;
-import myspring.di.xml.StringPrinter;
 
 public class HelloBeanJunitTest {
 	BeanFactory factory;
 	
 	@Before
 	public void init() {
-		// 1. Spring Bean Container 객체 생성
-		// config 밑에있는 xml 파일의 정보를 설정.
-		factory = new GenericXmlApplicationContext("config/spring_beans.xml");
-		
+		//1. Spring Bean Container 생성
+		factory = new GenericXmlApplicationContext("config/spring_beans.xml");	
 	}
 	
 	/**
-	 * 
-	 * TestCase 메서드를 선언할 때 규칙 1. @Test 어노테이션을 반드시 선언한다. 2. 테스트 메서드의 접근 제한자는 반드시
-	 * public void 이어야한다.
-	 * 
+	 * TestCase 메서드를 선언할 때 규칙
+	 *  1. @Test 어노테이션을 반드시 선언한다.
+	 *  2. 테스트 메서드의 접근 제한자는 반드시  public void 이여야 한다.
 	 */
-
 	@Test
 	public void hello() {
-		// 2. Container에게 Hello Bean을 요청
-		// "" 안에 id값을 대소문자 지켜서 작성
-		// 두가지 방식이 있다. 아래에 표현
+		//ResourceLocation - Spring Bean Config xml 정보를 설정
+		//2. Container 에게 Hello Bean을 요청
 		Hello hello = (Hello)factory.getBean("hello");
 		Hello hello2 = factory.getBean("hello", Hello.class);
-
-		// 2.1 Assert.assertSame() 메서드를 사용해서 주소 비교
-		Assert.assertSame(hello, hello2);
-
-		// 2.2 Assert.assertEquals() 메서드를 사용해서 값을 비교
-		//
-		// Hello.java에 있는 sayHello
-		// public String sayHello() {
-		// return "Hello " + name;
-		// }
-		//
-		// spring_beans.xml에 있는 <property name="name" value="Spring"/>
-		// 값을 비교
-		Assert.assertEquals("Hello Spring", hello.sayHello());
-
-		// 3. Container에게 String Bean을 요청
+		System.out.println(hello == hello2);
+		//2.1 Assert.assertSame() 메서드를 사용해서 주소 비교
+		assertSame(hello, hello2);
+		//2.2 Assert.assertEquals() 메서드를 사용해서 값을 비교
+		assertEquals("Hello 스프링", hello.sayHello());
+		
+		hello.print();
+		//3. Container에게 StringPrinter Bean을 요청
 		Printer printer = factory.getBean("sPrinter", Printer.class);
-		Assert.assertEquals("Hello Spring", printer.toString());
+		assertEquals("Hello 스프링", printer.toString());
 	}
-
+	
+	
 }
 ```
 
