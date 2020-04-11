@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+	<!-- properties file 설정 -->
+	<context:property-placeholder location="classpath:config/values.properties"/>
+	
+	
+	<!-- Component Auto Scanning 설정 -->
+	<context:component-scan base-package="myspring.di.annot" />
+	
+	<!-- StringPrinter 클래스를 Bean으로 설정 -->
+	<bean id="sPrinter" class="myspring.di.xml.StringPrinter" />
+	<!-- ConsolePrinter 클래스를 Bean으로 설정 -->
+	<bean id="cPrinter" class="myspring.di.xml.ConsolePrinter" />
+	
+	<!-- Hello 클래스를 Bean으로 설정 -->
+	<!-- scope : singleton, prototype, request, session -->
+	<bean id="hello" class="myspring.di.xml.Hello" scope="singleton">
+		<!-- setter injection : default constructor를 사용해서 객체를 생성함 -->
+		<property name="name" value="Spring" /> <!-- String -->
+		<property name="printer" ref="sPrinter" /> <!-- Printer -->
+	</bean>
+	
+	<bean id="helloC" class="myspring.di.xml.Hello">
+		<!-- consturctor injection : 아규먼트가 있는 (중복정의된) constructor 를 사용해서 객체를 생성-->
+		<constructor-arg index="0" value="Constructor" />
+		<constructor-arg index="1" ref="cPrinter" /> <!-- Hello가 ConsolePrinter를 참조하게 됨 -->
+		<property name="names">  <!-- setNames(List<String>) -->
+			<list>
+				<value>Java</value>
+				<value>Kotlin</value>
+				<value>Scalar</value>
+				<value>Java</value>
+			</list>
+		</property>
+		<property name="ages"> <!-- setAges(Map<String,Integer>) -->
+			<map>
+				<entry key="java" value="10" />
+				<entry key="js" value="20" />
+				<entry key="react" value="30" />
+			</map>
+		</property>
+	</bean>
+</beans>
