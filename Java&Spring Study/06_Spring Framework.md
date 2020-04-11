@@ -28,6 +28,13 @@
 
 
 
+### Framework 구성요소
+
+- **IoC**(Inversion of Control)
+- **Design Pattern** (대표적으로 GoF(gang of Four) pattern) : 클래스 구조에 대한 Guide
+
+
+
 ### 프레임워크와 라이브러리 차이점
 
 **라이브러리** : **객체 생성을 직접 개발자**가 한다.
