@@ -534,11 +534,23 @@ public class HelloBeanSpringTest {
 
 
 
-### - @Component는 <bean id="" class="" />와 동일, Spring Bean 등록(생성)
+### - @Component는 Spring Bean 등록(생성)
 
-### - @Value는 <property value="" />와 동일, Spring Bean의 의존성 주입, 값을 주입
+```
+<bean id="" class="" />와 동일
+```
 
-### - @Autowired는 <property ref="" />와 동일, 타입으로 해당되는 Bean을 찾아서 주입해주는 어노테이션, Reference를 주입
+### - @Value는 Spring Bean의 의존성 주입, 값을 주입
+
+```
+<property value="" />와 동일
+```
+
+### - @Autowired는 타입으로 해당되는 Bean을 찾아서 주입해주는 어노테이션, Reference를 주입
+
+```
+<property ref="" />와 동일
+```
 
 ### - @Qualifier는 동일한 타입이 여러개가 있을 때 특정 Bean을 지정하는 어노테이션, @Autowired와 같이 씀
 
