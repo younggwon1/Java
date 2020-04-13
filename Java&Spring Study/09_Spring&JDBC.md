@@ -112,6 +112,21 @@ Oracle은 Maven Repository가 아닌 직접 사이트에 가서 다운받기.
 
 6. **닫기**
 
+   ```java
+   //select
+   //사용했던 자원들을 반납
+   //ResultSet, Statement, Connection의 close()
+   rset.close();
+   stmt.close();
+   conn.close();
+   
+   //DML
+   stmt.close();
+conn.close();
+   ```
+   
+   
+   
    
    
    
