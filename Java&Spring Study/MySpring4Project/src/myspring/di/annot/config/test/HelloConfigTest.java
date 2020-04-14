@@ -11,7 +11,8 @@ import myspring.di.annot.Hello;
 import myspring.di.annot.config.AnnotatedHelloBeanConfig;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = AnnotatedHelloBeanConfig.class, loader = AnnotationConfigContextLoader.class)
+@ContextConfiguration(classes = AnnotatedHelloBeanConfig.class, 
+loader = AnnotationConfigContextLoader.class)
 public class HelloConfigTest {
 	@Autowired
 	Hello hello;
@@ -20,4 +21,5 @@ public class HelloConfigTest {
 	public void hello() {
 		System.out.println(hello.sayHello());
 	}
+	
 }

@@ -2,7 +2,7 @@ package myspring.di.annot;
 
 import org.springframework.stereotype.Component;
 
-@Component //bean의 id를 입력x
+@Component
 //<bean id="stringPrinter" class="myspring.di.annto.StringPrinter" />
 public class StringPrinter implements Printer {
 	private StringBuffer buffer = new StringBuffer();
