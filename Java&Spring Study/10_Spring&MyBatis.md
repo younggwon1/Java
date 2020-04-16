@@ -2235,6 +2235,7 @@ public class DeptVO {
 	
 	<!-- Student : StudentVO를 나타낸다. -->
 	<!-- 컬럼명과 VO객체의 setter method를 수동으로 매핑해주어야한다. -->
+    <!-- type에서 Student는 myspring.user.vo.StudentVO를 가리킨다. --> 
 	<resultMap id="studentDeptResultMap" type="Student">
 		<id property="id" column="stu_id" javaType="Integer" jdbcType="NUMERIC" />
 		<result property="name" column="stu_name" javaType="String"
@@ -2245,6 +2246,7 @@ public class DeptVO {
 			jdbcType="VARCHAR" />
 		<result property="daynight" column="stu_daynight" javaType="String"
 			jdbcType="VARCHAR" />
+        <!-- property="dept"는 SetDept(DeptVO dept)를 가리킨다. -->
 		<association property="dept" column="dept_id" javaType="Dept"
 			resultMap="deptResultMap" />
 	</resultMap>
@@ -2565,6 +2567,493 @@ public class MyBatisTest {
 		}
 	}
 }
+```
+
+
+
+---
+
+
+
+### Insert하기(등록하기)
+
+```xml
+# StudentMapper.xml
+
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- <mapper namespace="studentNS"> -->
+<mapper namespace="myspring.user.dao.mapper.StudentMapper">
+
+	<resultMap id="studentDeptResultMap" type="Student">
+		<id property="id" column="stu_id" javaType="Integer" jdbcType="NUMERIC" />
+		<result property="name" column="stu_name" javaType="String"
+			jdbcType="VARCHAR" />
+		<result property="age" column="stu_age" javaType="Integer"
+			jdbcType="NUMERIC" />
+		<result property="grade" column="stu_grade" javaType="String"
+			jdbcType="VARCHAR" />
+		<result property="daynight" column="stu_daynight" javaType="String"
+			jdbcType="VARCHAR" />
+		<association property="dept" column="dept_id" javaType="Dept"
+			resultMap="deptResultMap" />
+	</resultMap>
+			
+	<resultMap id="studentCourseStatusResultMap" type="Student">
+		<id property="id" column="stu_id" javaType="Integer" jdbcType="NUMERIC" />
+		<result property="name" column="stu_name" javaType="String"
+			jdbcType="VARCHAR" />
+		<result property="age" column="stu_age" javaType="Integer"
+			jdbcType="NUMERIC" />
+		<result property="grade" column="stu_grade" javaType="String"
+			jdbcType="VARCHAR" />
+		<result property="daynight" column="stu_daynight" javaType="String"
+			jdbcType="VARCHAR" />
+		<collection property="courseStatus" ofType="CourseStatus" 
+			resultMap="coursestatusResultMap" />			
+	</resultMap>
+	
+	<resultMap id="studentResultMap" type="Student">
+		<id property="id" column="stu_id" javaType="Integer" jdbcType="NUMERIC" />
+		<result property="name" column="stu_name" javaType="String"
+			jdbcType="VARCHAR" />
+		<result property="age" column="stu_age" javaType="Integer"
+			jdbcType="NUMERIC" />
+		<result property="grade" column="stu_grade" javaType="String"
+			jdbcType="VARCHAR" />
+		<result property="daynight" column="stu_daynight" javaType="String"
+			jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="deptResultMap" type="Dept">
+		<id property="deptid" column="dept_id" javaType="Integer" jdbcType="NUMERIC" />
+		<result property="deptname" column="dept_name" javaType="String"
+			jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="courseResultMap" type="Course">
+		<id property="courseId" column="course_id" javaType="Integer"
+			jdbcType="NUMERIC" />
+		<result property="courseName" column="course_name" javaType="String"
+			jdbcType="VARCHAR" />
+		<result property="courseInstructor" column="course_instructor"
+			javaType="String" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="coursestatusResultMap" type="CourseStatus">
+		<id property="statusId" column="status_id" javaType="Integer"
+			jdbcType="NUMERIC" />
+		<result property="courseScore" column="course_score" javaType="Integer"
+			jdbcType="NUMERIC" />
+		<association property="course" column="course_id" javaType="Course"
+			resultMap="courseResultMap" />
+	</resultMap>
+
+	<select id="selectStudentDeptById" resultMap="studentDeptResultMap">
+		select s.stu_id,
+		s.stu_name,
+		s.stu_age,
+		s.stu_grade,
+		s.stu_daynight,
+		d.dept_id,
+		d.dept_name
+		from student s, dept d
+		where s.dept_id = d.dept_id
+	</select>
+
+	<select id="selectStudentCourseStatusById" resultMap="studentCourseStatusResultMap">
+		select  s.stu_id,
+		        s.stu_name,
+		        s.stu_age,
+		        s.stu_grade,
+		        s.stu_daynight,
+		        c.course_id,
+		        c.course_name,
+		        c.course_instructor,
+		        t.status_id,
+		        t.COURSE_SCORE
+		from  SCOTT.student s, SCOTT.COURSE_STATUS t, scott.course c
+		where s.stu_id = t.stu_id
+		  and t.course_id = c.course_id
+	</select>
+	<select id="selectStudentByName" parameterType="String"
+		resultMap="studentResultMap">
+		<include refid="selectStudent" />
+		where stu_name like '%' || #{value} || '%'
+	</select>
+
+	<select id="selectStudentByGradeorDay2" parameterType="Student"
+		resultMap="studentResultMap">
+		<include refid="selectStudent" />
+		<where>
+			<if test="grade != null">
+				stu_grade = #{grade}
+			</if>
+			<if test="daynight != null">
+				and stu_daynight = #{daynight}
+			</if>
+		</where>
+	</select>
+
+	<select id="selectStudentByGradeorDay" parameterType="Map"
+		resultMap="studentResultMap">
+		<include refid="selectStudent" />
+		<where>
+			<if test="grade != null">
+				stu_grade = #{grade}
+			</if>
+			<if test="day != null">
+				or stu_daynight = #{day}
+			</if>
+		</where>
+	</select>
+
+	<sql id="selectStudent">
+		select * from student
+	</sql>
+
+	<select id="selectStudentGrade" resultType="integer">
+		select count(*) cnt
+		from STUDENT
+		group by grade
+	</select>
+
+	<!-- Student : 등록하려는 입력데이터를 저장하고 있는 StudentVO 객체이다. -->
+	<!-- VO객체에 저장되어있는 데이터를 꺼내 써야하므로 getid, getname, getage, getgrade, ...이다. -->
+	<!-- dept.deptid는  getDept().getDeptid()를 의미한다.-->
+	<insert id="insertStudent" parameterType="Student">
+		insert into student
+		(stu_id,stu_name,stu_age,stu_grade,stu_daynight,dept_id)
+		values(
+		#{id}, 
+		#{name},
+		#{age},
+		#{grade},#{daynight},#{dept.deptid} )
+	</insert>
+
+	<update id="updateStudent" parameterType="Student">
+		update student set
+		stu_name = #{name},
+		stu_age = #{age},
+		stu_grade = #{grade},
+		stu_daynight
+		= #{daynight},
+		dept_id = #{dept.deptid}
+		where stu_id = #{id}
+	</update>
+
+	<insert id="insertCourseStatus" parameterType="CourseStatus">
+		insert into COURSE_STATUS 
+		(STATUS_ID,STU_ID,COURSE_ID,COURSE_SCORE)
+		values (
+		#{statusId},
+		#{student.id},
+		#{course.courseId},
+		#{courseScore})
+	</insert>
+	
+	<!-- <delete id="deleteStudent" parameterType="Integer"> -->
+	<!-- delete from student where id = #{value} -->
+	<!-- </delete> -->
+
+</mapper>
+```
+
+
+
+```java
+# StudentVO.java
+
+package myspring.user.vo;
+
+import java.util.List;
+
+public class StudentVO {
+	private Integer id;
+	private String name;
+	private Integer age;
+	private String grade;
+	private String daynight;
+
+	private DeptVO dept; //1:1 관계
+
+	private List<CourseStatusVO> courseStatus; //1:n 관계
+
+	public StudentVO() {
+
+	}
+
+	public StudentVO(Integer id, String name, Integer age, String grade, String daynight, DeptVO dept) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.age = age;
+		this.grade = grade;
+		this.daynight = daynight;
+		this.dept = dept;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Integer getAge() {
+		return age;
+	}
+
+	public void setAge(Integer age) {
+		this.age = age;
+	}
+
+	public String getGrade() {
+		return grade;
+	}
+
+	public void setGrade(String grade) {
+		this.grade = grade;
+	}
+
+	public String getDaynight() {
+		return daynight;
+	}
+
+	public void setDaynight(String daynight) {
+		this.daynight = daynight;
+	}
+
+	public DeptVO getDept() {
+		return dept;
+	}
+
+	public void setDept(DeptVO dept) {
+		this.dept = dept;
+	}
+
+	public List<CourseStatusVO> getCourseStatus() {
+		return courseStatus;
+	}
+
+	public void setCourseStatus(List<CourseStatusVO> courseStatus) {
+		this.courseStatus = courseStatus;
+	}
+
+	@Override
+	public String toString() {
+		return "StudentVO [id=" + id + ", name=" + name + ", age=" + age + ", grade=" + grade + ", daynight=" + daynight
+				+ ", dept=" + dept + ", courseStatus=" + courseStatus + "]";
+	}
+
+}
+```
+
+
+
+```java
+# DeptVO.java
+
+package myspring.user.vo;
+
+public class DeptVO {
+	private Integer deptid;
+	private String deptname;
+	
+	public DeptVO() {
+		
+	}
+
+	public DeptVO(Integer deptid) {
+		this.deptid = deptid;
+	}
+	public DeptVO(Integer deptid, String deptname) {
+		super();
+		this.deptid = deptid;
+		this.deptname = deptname;
+	}
+
+	public Integer getDeptid() {
+		return deptid;
+	}
+
+	public void setDeptid(Integer deptid) {
+		this.deptid = deptid;
+	}
+
+	public String getDeptname() {
+		return deptname;
+	}
+
+	public void setDeptname(String deptname) {
+		this.deptname = deptname;
+	}
+
+	@Override
+	public String toString() {
+		return "Dept [deptid=" + deptid + ", deptname=" + deptname + "]";
+	}
+}
+
+```
+
+
+
+```java
+# StudentMapper.java
+
+package myspring.user.dao.mapper;
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.ResultMap;
+import org.apache.ibatis.annotations.Select;
+
+import myspring.user.vo.CourseStatusVO;
+import myspring.user.vo.StudentVO;
+
+@MyMapper
+public interface StudentMapper {
+	@ResultMap("studentResultMap")
+	@Select("select * from student where stu_id=#{id}")
+	StudentVO selectStudentById(@Param("id") int id);
+	List<StudentVO> selectStudentDeptById();
+	List<StudentVO> selectStudentCourseStatusById();
+	
+	int insertStudent(StudentVO studentVO);
+	int updateStudent(StudentVO studentVO);
+	int insertCourseStatus(CourseStatusVO courseStatusVO);
+	
+}
+
+
+```
+
+
+
+```java
+# MyBatis.java
+
+package myspring.user.test;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
+
+import javax.sql.DataSource;
+
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.junit.Ignore;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import myspring.user.dao.mapper.StudentMapper;
+import myspring.user.service.UserService;
+import myspring.user.vo.DeptVO;
+import myspring.user.vo.StudentVO;
+import myspring.user.vo.UserVO;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = "classpath:config/spring_beans.xml")
+public class MyBatisTest {
+	@Autowired
+	DataSource dataSource;
+	
+	@Autowired
+	SqlSessionFactory SqlSessionFactory;
+	
+	@Autowired
+	SqlSession sqlSession;
+	
+	
+	@Autowired
+	UserService userService;
+	
+	@Autowired
+	StudentMapper studentMapper;
+	
+	
+	@Test
+	public void stuMapper() {
+		//Test case : StudentMapper -> SqlSession -> StudentMapper.xml
+		//new DeptVO(20)은 StudentMapper.xml에서 #{dept.deptid}
+		StudentVO student = new StudentVO(1500, "둘리", 10, "3학년", "주간", new DeptVO(20));
+		int cnt = studentMapper.insertStudent(student);
+		System.out.println("등록학생 건수" + cnt);
+		
+		
+		
+		List<StudentVO> selectStudentDeptById = studentMapper.selectStudentDeptById();
+		for (StudentVO studentVO : selectStudentDeptById) {
+			System.out.println(studentVO);
+		}
+	}
+	
+	@Test @Ignore
+	public void service() {
+		//순서 : UserService -> UserDao -> SqlSession -> SqlSessionFactory -> DataSource
+		UserVO user = userService.getUser("gildong");
+		System.out.println(user);
+	}
+	
+	
+	
+	@Test @Ignore
+	public void sql2() {
+		List<UserVO> selectList = sqlSession.selectOne("userNS.selectUserList", "gildong");
+		for (UserVO userVO : selectList) {
+			System.out.println(userVO);
+		}
+	}
+	
+
+	@Test @Ignore
+	public void sql() { //sql test 
+		UserVO user = sqlSession.selectOne("userNS.selectUserById", "gildong");
+		System.out.println(user);
+		
+		UserVO insertUser = new UserVO("java", "자바", "여", "제주");
+		int cnt = sqlSession.insert("insertUser", insertUser);
+		System.out.println("등록 건수 : " + cnt);
+	}
+	
+	@Test @Ignore
+	public void ss() { //sqlSession test
+		System.out.println(sqlSession.getClass().getName());
+	}
+	
+	@Test @Ignore
+	public void mybatis_spring() { //mybatis_spring test
+		System.out.println(SqlSessionFactory.getClass().getName());
+	}
+	
+	@Test @Ignore
+	public void con() { //connection test
+		try {
+			Connection con = dataSource.getConnection();
+			System.out.println(con);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+}
+
 ```
 
 
