@@ -1312,6 +1312,318 @@ public class UserController {
 
 
 
+#### 사용자 수정해보기
+
+```java
+# UserController.java
+
+package myspring.user.controller;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+import myspring.user.service.UserService;
+import myspring.user.vo.UserVO;
+
+@Controller
+public class UserController {
+	@Autowired
+	private UserService userService;
+
+	// 사용자 목록 조회
+	@RequestMapping("/userList.do")
+	public ModelAndView userList() {
+		List<UserVO> userList = userService.getUserList();
+
+//		//2. DAO로 받아온 List 객체를 JSP에서 사용할 수 있도록 reguest 객체를 저장한다.
+//		request.setAttribute("userList", users);
+//		//3. 결과를 출력해줄 JSP - UserList.jsp를 포워딩(브라우저에 찍어보기)
+//		rd = request.getRequestDispatcher("userList.jsp");
+//		rd.forward(request, response);
+		// 위의 코드를 다음과 같이 표시할 수 있다.
+		return new ModelAndView("userList", "userList", userList);
+	}
+
+	// 사용자 상세정보 조회
+	@RequestMapping("/userDetail.do")
+	// @RequestParam : request.getParameter()와 동일하다.
+	public String userDetail(@RequestParam String userid, Model model) {
+		UserVO user = userService.getUser(userid);
+		model.addAttribute("user", user);
+		return "userDetail";
+	}
+
+	// 사용자 등록Form 조회
+	@RequestMapping("/userInsertForm.do")
+	public String insertUserForm(HttpSession session) {
+		List<String> genderList = new ArrayList<String>();
+		genderList.add("남");
+		genderList.add("여");
+
+		// session에 genderList를 저장해보기
+		session.setAttribute("genderList", genderList);
+
+		List<String> cityList = new ArrayList<String>();
+		cityList.add("서울");
+		cityList.add("경기");
+		cityList.add("부산");
+		cityList.add("대구");
+		cityList.add("제주");
+
+		// session에 cityList를 저장해보기
+		session.setAttribute("cityList", cityList);
+
+		// session에 저장했기 때문에 Map은 필요없다.
+//		Map<String, List<String>> map = new HashMap<>();
+//		map.put("genderList", genderList);
+//		map.put("cityList", cityList);
+
+		return "userInsert";
+	}
+
+	// 사용자 등록 처리
+	// post방식이기 때문에 다음과 같이 사용해야한다. method 언급을 안하게 되면 get으로 인식
+	// <form method="post" action="userInsert.do" >
+	// value = "/userInsert.do",method = RequestMethod.POST
+	@RequestMapping(value = "/userInsert.do", method = RequestMethod.POST)
+	public String userInsert(@ModelAttribute UserVO user) {
+		System.out.println(">>> UserVO " + user);
+		userService.insertUser(user);
+		// 사용자 목록 조회를 처리하는 요청으로 포워딩을 하겠다.(사용자 목록 페이지로 포워딩)
+		return "redirect:/userList.do";
+	}
+
+	// 사용자 삭제 처리
+	@RequestMapping("/userDelete.do/{id}")
+	public String userDelete(@PathVariable("id") String userid) {
+		userService.deleteUser(userid);
+		// 사용자 목록 조회를 처리하는 요청으로 포워딩을 하겠다.(사용자 목록 페이지로 포워딩)
+		return "redirect:/userList.do";
+	}
+
+	// 사용자 수정Form 조회
+	@RequestMapping("/userUpdateForm.do")
+	public String updateUserForm(@RequestParam String userid, HttpSession session) {
+		UserVO user = userService.getUser(userid);
+		List<String> genderList = new ArrayList<String>();
+		genderList.add("남");
+		genderList.add("여");
+		session.setAttribute("genderList", genderList);
+
+		List<String> cityList = new ArrayList<String>();
+		cityList.add("서울");
+		cityList.add("부산");
+		cityList.add("경기");
+		cityList.add("대구");
+		cityList.add("제주");
+		session.setAttribute("cityList", cityList);
+
+		session.setAttribute("user", user);
+		return "userUpdate";
+
+	}
+
+	// 사용자 수정 처리
+	@RequestMapping(value = "/userUpdate.do", method = RequestMethod.POST)
+	public String userUpdate(@ModelAttribute UserVO user) {
+		System.out.println(">>> UserVO " + user);
+		userService.updateUser(user);
+		// 사용자 목록 조회를 처리하는 요청으로 포워딩을 하겠다.(사용자 목록 페이지로 포워딩)
+		return "redirect:/userList.do";
+	}
+
+	/*
+	 * // 사용자 수정Form 조회
+	 * 
+	 * @RequestMapping("/userUpdateForm.do") public ModelAndView
+	 * updateUserForm(@RequestParam String userid) { UserVO user =
+	 * userService.getUser(userid); List<String> genderList = new
+	 * ArrayList<String>(); genderList.add("남"); genderList.add("여"); List<String>
+	 * cityList = new ArrayList<String>(); cityList.add("서울"); cityList.add("부산");
+	 * cityList.add("대구"); cityList.add("제주"); Map<String, Object> map = new
+	 * HashMap<String, Object>(); map.put("genderList", genderList);
+	 * map.put("cityList", cityList); map.put("user", user); return new
+	 * ModelAndView("userUpdate", "map", map); }
+	 * 
+	 * // 사용자 수정 처리
+	 * 
+	 * @RequestMapping(value = "/userUpdate.do", method = RequestMethod.POST) public
+	 * String userUpdate(@ModelAttribute UserVO user) {
+	 * System.out.println(">>> UserVO " + user); userService.updateUser(user); ; //
+	 * 사용자 목록 조회를 처리하는 요청으로 포워딩을 하겠다.(사용자 목록 페이지로 포워딩) return
+	 * "redirect:/userList.do"; }
+	 */
+
+}
+```
+
+
+
+```jsp
+# userList.jsp
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<html>
+<head>
+<title>사용자 관리</title>
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+	function deleteUser(userId){
+		var result = confirm(userId +" 사용자를 정말로 삭제하시겠습니까?");
+		if(result) {
+			location.href = "userDelete.do/"+userId;
+		}
+	}
+</script>
+
+</head>
+<body>
+	<div class="container">
+		<h2 class="text-center">사용자 목록</h2>
+		<table class="table table-bordered table table-hover"> 
+			<thead> 
+				<tr> 
+					<th>아이디</th> 
+					<th>이름</th> 
+					<th>성별</th>
+					<th>거주지</th>
+					<th>&nbsp;</th>
+					<th>&nbsp;</th>
+				</tr> 
+		</thead> 
+		<tbody> 
+			<c:forEach var="user" items="${userList}">
+				<tr>
+					<td>
+					 	<a href="userDetail.do?userid=${user.userId}">${user.userId}</a>
+					 </td>
+					<td>${user.name}</td>
+					<td>${user.gender}</td>
+					<td>${user.city}</td>
+					<td>
+					     <a href="userUpdateForm.do?userid=${user.userId}">수정</a>
+					</td>
+					<td><a href="#" onclick="deleteUser('${user.userId}')">삭제</a></td>
+				</tr>
+			</c:forEach>
+			<tr>
+				<td colspan="7">
+					<a href="userInsertForm.do">사용자 등록</a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	</div>
+</body>
+</html>
+```
+
+
+
+```jsp
+# userUpdate.jsp
+# map으로 하게 되면 sessionScope부분을 map으로 바꿔준다.
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<html>
+<head>
+<title>사용자 정보 수정</title>
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+	<div class="container">
+		<h2 class="text-center">사용자 정보 수정</h2>
+		<div>
+			<form method="post" action="userUpdate.do">
+				<input type="hidden" name="userId"  value="${sessionScope.user.userId}" />
+				<table class="table table-bordered table table-hover">
+					<tr>
+						<td>아이디 :</td>
+						<td>${sessionScope.user.userId}</td>
+					</tr>
+					<tr>
+						<td>이름 :</td>
+						<td><input type="text" name="name" value="${sessionScope.user.name}" />
+						</td>
+					</tr>
+					<tr>
+						<td>성별 :</td>
+						<td>
+								<c:forEach items='${sessionScope.genderList}' var='genderName'>
+									<c:choose>
+										<c:when test="${genderName eq sessionScope.user.gender}">
+											<input type="radio" name="gender" value="${genderName}"
+												checked="checked">${genderName}
+										</c:when>
+										<c:otherwise>
+											<input type="radio" name="gender" value="${genderName}">${genderName}
+										</c:otherwise>
+									</c:choose>
+								</c:forEach>
+							</td>
+					</tr>
+					<tr>
+						<td>거주지 :</td>
+						<td>
+								<select name="city">
+									<c:forEach items='${sessionScope.cityList}' var='cityName'>
+										<c:choose>
+											<c:when test="${cityName eq sessionScope.user.city}">
+												<option value="${cityName}" selected>${cityName}</option>
+											</c:when>
+											<c:otherwise>
+												<option value="${cityName}">${cityName}</option>
+											</c:otherwise>
+										</c:choose>
+									</c:forEach>
+								</select>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" class="text-center"><input type="submit" value="수정" /></td>
+					</tr>
+				</table>
+			</form>
+		</div>
+	</div>
+</body>
+</html>
+
+
+```
+
+
+
+---
+
+
+
 #### web쪽으로 관련된 것(front controller)을 spring_beans_web.xml으로 빼보자
 
 #### spring_beans.xml은 backend 쪽만 남도록
