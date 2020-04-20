@@ -1042,7 +1042,7 @@ public class UserController {
 						<input type="submit" value="등록" /></td>
 					</tr>
 					<tr>					
-						<td colspan="2" class="text-center"><a href="getUserList.do">사용자 목록보기</a></td>
+						<td colspan="2" class="text-center"><a href="userList.do">사용자 목록보기</a></td>
 					</tr>
 				</table>
 			</form>
@@ -1617,6 +1617,20 @@ public class UserController {
 
 
 ```
+
+
+
+
+
+![캡처](https://user-images.githubusercontent.com/42603919/79744792-f84b0380-8341-11ea-8f39-e69035e7d574.PNG)
+
+
+
+![캡처](https://user-images.githubusercontent.com/42603919/79744893-27617500-8342-11ea-908e-3defa6dfab9a.PNG)
+
+
+
+![캡처](https://user-images.githubusercontent.com/42603919/79745157-9dfe7280-8342-11ea-9407-b85e979b85a7.PNG)
 
 
 
