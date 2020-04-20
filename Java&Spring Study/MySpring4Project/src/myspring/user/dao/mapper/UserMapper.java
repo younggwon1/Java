@@ -8,8 +8,7 @@ import myspring.user.vo.UserVO;
 
 @MyMapper
 public interface UserMapper {
-	//@Select("select * from users where userid=#{id}") 
-	//@Param("id")
+	//@Select("select * from users where userid=#{id}")
 	UserVO selectUserById(String id);
 	List<UserVO> selectUserList();
 	void insertUser(UserVO userVO);

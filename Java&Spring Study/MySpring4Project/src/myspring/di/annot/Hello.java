@@ -3,6 +3,8 @@ package myspring.di.annot;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,17 +12,17 @@ import org.springframework.stereotype.Component;
 
 @Component("helloA")
 public class Hello {
-	//<property name="name" value="ìŠ¤í”„ë§" />
-	@Value("${name}")
+	
+	@Value("${name}") 
+	//<property name="name" value="Annotation" />°ú µ¿ÀÏ
 	String name;
 	
-	@Autowired
-	//@Qualifier("${myprinter}")  //ì§€ì›í•˜ì§€ ì•ŠëŠ”ë‹¤. ì˜¤ë¥˜ë°œìƒ
+	@Autowired 
 	@Qualifier("stringPrinter")
-	//<property name="printer" ref="stringPrinter" />
-	//@Resource(name = "${myprinter}")  //ì§€ì›í•œë‹¤. 
-	Printer printer;
+	//<property name="printer" ref="stringPrinter" />°ú µ¿ÀÏ
 	
+//	@Resource(name = "${myprinter}")
+	Printer printer;
 	List<String> names;
 	Map<String, Integer> ages;
 
@@ -28,8 +30,8 @@ public class Hello {
 		System.out.println("Hello Default Constructor called...");
 	}
 
-	//@Autowired
-	//public Hello(@Value("Annotation") String name, @Qualifier("stringPrinter") Printer printer) {
+//	@Autowired
+//	public Hello(@Value("Annotation") String name, @Qualifier("stringPrinter") Printer printer) {
 	public Hello(String name, Printer printer) {
 		System.out.println("OverLoading Hello Constructor called..");
 		this.name = name;
@@ -43,8 +45,16 @@ public class Hello {
 	public void setNames(List<String> list) {
 		this.names = list;
 	}
-	
-	//setName(), setPrinter()ëŠ” ì œê±°í•¨
+
+//	public void setName(String name) {
+//		System.out.println("Hello setName() called.." + name);
+//		this.name = name;
+//	}
+//
+//	public void setPrinter(Printer printer) {
+//		System.out.println("Hello setPrinter() called.." + printer.getClass().getName());
+//		this.printer = printer;
+//	}
 
 	public void setAges(Map<String, Integer> ages) {
 		this.ages = ages;

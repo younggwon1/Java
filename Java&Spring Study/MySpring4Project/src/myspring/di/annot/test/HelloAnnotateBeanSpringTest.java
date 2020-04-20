@@ -12,15 +12,15 @@ import myspring.di.annot.Printer;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:config/spring_beans.xml")
-public class HelloAnnotatedBeanSpringTest {
+public class HelloAnnotateBeanSpringTest {
 	@Autowired
-	//@Qualifier("helloA")
 	Hello hello;
 	
 	@Autowired
-	@Qualifier("stringPrinter")
+	@Qualifier("stringPrinter") //printer가 두 개이기 때문에 하나로 지정해야한다.
+	//@Qualifier("consolePrinter")
 	Printer printer;
-	
+	// Printer consolePrinter; consolePrinter로 지정
 	
 	@Test
 	public void hello() {
@@ -28,5 +28,4 @@ public class HelloAnnotatedBeanSpringTest {
 		hello.print();
 		System.out.println(printer.toString());
 	}
-	
 }

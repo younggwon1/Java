@@ -8,9 +8,6 @@ import javax.sql.DataSource;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,22 +17,22 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import myspring.user.dao.mapper.StudentMapper;
 import myspring.user.service.UserService;
+import myspring.user.vo.DeptVO;
 import myspring.user.vo.StudentVO;
 import myspring.user.vo.UserVO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:config/spring_beans.xml")
 public class MyBatisTest {
-	private static final Logger logger = LogManager.getLogger();
-
 	@Autowired
 	DataSource dataSource;
 	
 	@Autowired
-	SqlSessionFactory sqlSessionFactory;
+	SqlSessionFactory SqlSessionFactory;
 	
 	@Autowired
 	SqlSession sqlSession;
+	
 	
 	@Autowired
 	UserService userService;
@@ -43,8 +40,17 @@ public class MyBatisTest {
 	@Autowired
 	StudentMapper studentMapper;
 	
-	@Test
+	
+	@Test @Ignore
 	public void stuMapper() {
+		//Test case : StudentMapper -> SqlSession -> StudentMapper.xml
+		//new DeptVO(20)Àº StudentMapper.xml¿¡¼­ #{dept.deptid}
+		StudentVO student = new StudentVO(1500, "µÑ¸®", 10, "3ÇĞ³â", "ÁÖ°£", new DeptVO(20));
+		int cnt = studentMapper.insertStudent(student);
+		System.out.println("µî·ÏÇĞ»ı °Ç¼ö" + cnt);
+		
+		
+		
 		List<StudentVO> selectStudentDeptById = studentMapper.selectStudentDeptById();
 		for (StudentVO studentVO : selectStudentDeptById) {
 			System.out.println(studentVO);
@@ -53,56 +59,49 @@ public class MyBatisTest {
 	
 	@Test @Ignore
 	public void service() {
-		//UserService -> UserDao -> SqlSession -> SqlSessionFactory -> DataSource
+		//¼ø¼­ : UserService -> UserDao -> SqlSession -> SqlSessionFactory -> DataSource
 		UserVO user = userService.getUser("gildong");
 		System.out.println(user);
 	}
 	
 	
+	
 	@Test @Ignore
 	public void sql2() {
-		//SqlSession -> SqlSessionFactory -> DataSource
-		
-		//íŠ¹ì • userë¥¼ update
-		UserVO updateUser = new UserVO("java", "ìë°”2", "ì—¬2", "ì œì£¼2");
-		int cnt = sqlSession.update("userNS.updateUser", updateUser);
-		logger.info(">>>>> update cnt " + cnt);
-		
-		List<UserVO> selectList = sqlSession.selectList("userNS.selectUserList");
+		List<UserVO> selectList = sqlSession.selectOne("userNS.selectUserList", "gildong");
 		for (UserVO userVO : selectList) {
-			logger.debug(userVO);
+			System.out.println(userVO);
 		}
 	}
 	
+
 	@Test @Ignore
-	public void sql() {
-		//SqlSessionì˜ selectOne()
+	public void sql() { //sql test 
 		UserVO user = sqlSession.selectOne("userNS.selectUserById", "gildong");
 		System.out.println(user);
 		
-		UserVO insertUser = new UserVO("java", "ìë°”", "ì—¬", "ì œì£¼");
+		UserVO insertUser = new UserVO("java", "ÀÚ¹Ù", "¿©", "Á¦ÁÖ");
 		int cnt = sqlSession.insert("insertUser", insertUser);
-		System.out.println("ë“±ë¡ëœ ê±´ìˆ˜ : " + cnt);
+		System.out.println("µî·Ï °Ç¼ö : " + cnt);
 	}
 	
 	@Test @Ignore
-	public void mybatis_spring() {
-		System.out.println(sqlSessionFactory.getClass().getName());
+	public void ss() { //sqlSession test
 		System.out.println(sqlSession.getClass().getName());
-		
 	}
 	
-	//DataSource dataSource = new BasicDataSource();
 	@Test @Ignore
-	public void con() {
+	public void mybatis_spring() { //mybatis_spring test
+		System.out.println(SqlSessionFactory.getClass().getName());
+	}
+	
+	@Test //@Ignore
+	public void con() { //connection test
 		try {
 			Connection con = dataSource.getConnection();
 			System.out.println(con);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 	}
-	
 }

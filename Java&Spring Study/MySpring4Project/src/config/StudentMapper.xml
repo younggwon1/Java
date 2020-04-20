@@ -5,9 +5,7 @@
 
 <!-- <mapper namespace="studentNS"> -->
 <mapper namespace="myspring.user.dao.mapper.StudentMapper">
-	<!-- Student : StudentVO 를 나타낸다 -->
-	<!-- 컬럼명과 VO객체의 setter method를  수동으로 매핑 해주어야 한다 -->
-	<!-- association : 관계수가 1:1 -->
+
 	<resultMap id="studentDeptResultMap" type="Student">
 		<id property="id" column="stu_id" javaType="Integer" jdbcType="NUMERIC" />
 		<result property="name" column="stu_name" javaType="String"
@@ -18,7 +16,6 @@
 			jdbcType="VARCHAR" />
 		<result property="daynight" column="stu_daynight" javaType="String"
 			jdbcType="VARCHAR" />
-		<!-- setDept() -->	
 		<association property="dept" column="dept_id" javaType="Dept"
 			resultMap="deptResultMap" />
 	</resultMap>
@@ -49,7 +46,6 @@
 			jdbcType="VARCHAR" />
 	</resultMap>
 	
-	<!-- Dept : DeptVO 를 나타낸다 -->
 	<resultMap id="deptResultMap" type="Dept">
 		<id property="deptid" column="dept_id" javaType="Integer" jdbcType="NUMERIC" />
 		<result property="deptname" column="dept_name" javaType="String"
@@ -143,11 +139,14 @@
 		group by grade
 	</select>
 
+	<!-- Student : 등록하려는 입력데이터를 저장하고 있는 StudentVO 객체이다. -->
+	<!-- VO객체에 저장되어있는 데이터를 꺼내 써야하므로 getid, getname, getage, getgrade, ...이다. -->
+	<!-- dept.deptid는  getDept().getDeptid()를 의미한다.-->
 	<insert id="insertStudent" parameterType="Student">
 		insert into student
 		(stu_id,stu_name,stu_age,stu_grade,stu_daynight,dept_id)
 		values(
-		#{id},
+		#{id}, 
 		#{name},
 		#{age},
 		#{grade},#{daynight},#{dept.deptid} )

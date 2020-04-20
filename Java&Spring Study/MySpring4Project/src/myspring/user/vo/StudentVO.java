@@ -8,12 +8,10 @@ public class StudentVO {
 	private Integer age;
 	private String grade;
 	private String daynight;
-	
-	//private Integer deptid; (X)
-	
-	private DeptVO dept; //1:1 (O)
 
-	private List<CourseStatusVO> courseStatus; //1:n
+	private DeptVO dept; //1:1 관계
+
+	private List<CourseStatusVO> courseStatus; //1:n 관계
 
 	public StudentVO() {
 

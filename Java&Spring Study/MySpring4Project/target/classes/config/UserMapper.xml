@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+	
 <mapper namespace="myspring.user.dao.mapper.UserMapper">
 <!-- <mapper namespace="userNS"> -->
 
 	<select id="selectUserById" parameterType="string" resultType="User">
-	<!--  setter : 컬럼명과 setter method 명이 일치하므로 -->
 		select * from users where userid=#{value}
 	</select>
 
@@ -14,7 +15,6 @@
 	</select>
 
 	<insert id="insertUser" parameterType="User">
-	<!-- getUserId(), getName(), getGender(), getCity() -->
 		insert into users
 		values(#{userId},#{name},#{gender},#{city} )
 	</insert>

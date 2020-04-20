@@ -13,10 +13,7 @@ public interface StudentMapper {
 	@ResultMap("studentResultMap")
 	@Select("select * from student where stu_id=#{id}")
 	StudentVO selectStudentById(@Param("id") int id);
-	
-	//selectStudentDeptById
 	List<StudentVO> selectStudentDeptById();
-	
 	List<StudentVO> selectStudentCourseStatusById();
 	
 	int insertStudent(StudentVO studentVO);
@@ -24,3 +21,4 @@ public interface StudentMapper {
 	int insertCourseStatus(CourseStatusVO courseStatusVO);
 	
 }
+

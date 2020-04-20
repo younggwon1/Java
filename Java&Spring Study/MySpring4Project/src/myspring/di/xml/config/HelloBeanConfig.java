@@ -11,20 +11,21 @@ import myspring.di.xml.StringPrinter;
 
 @Configuration
 public class HelloBeanConfig {
-
+	
 	@Bean
-	//<bean id="stringPrinter" class="xx.StringPrinter" />
+	//@Bean은 XML에서 <bean id="stringPrinter" class="xx.StirngPrinter" />
 	public Printer stringPrinter() {
 		return new StringPrinter();
 	}
 	
-	@Bean
-	public Printer consolePrinter() {
+	@Bean 
+	//@Bean은 XML에서 <bean id="consolPrinter" class="xx.ConsolePrinter" />
+	public Printer consolPrinter() {
 		return new ConsolePrinter();
 	}
 	
 	@Bean
-	@Scope("singleton")
+//	@Scope("singleton")
 	public Hello hello() {
 		Hello hello = new Hello();
 		hello.setName("Config");

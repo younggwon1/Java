@@ -5,8 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
 @Configuration
-//<context:component-scan base-package="myspring.di.annot" />
-@ComponentScan(basePackages = {"myspring.di.annot"})
+@ComponentScan(basePackages = {"myspring.di.annot"}) //<context:component-scan base-package="myspring.di.annot" />¿Í µ¿ÀÏ
 @PropertySource("classpath:config/values.properties")
 public class AnnotatedHelloBeanConfig {
 
