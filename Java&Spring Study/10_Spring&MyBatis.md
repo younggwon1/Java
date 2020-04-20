@@ -605,7 +605,7 @@ db.password=tiger
 	</bean>
 	
 	
-    
+    <context:property-placeholder location="classpath:config/values.properties"/>
     
 	<!-- Component Auto Scanning 설정 -->
 	<context:component-scan base-package="myspring.di.annot" />
@@ -859,7 +859,7 @@ public class MyBatisTest {
 
 
 
-    
+    <context:property-placeholder location="classpath:config/values.properties"/>
     
 	<!-- Datasource 구현체인 BasicDataSource 클래스를 Bean으로 등록 -->
 	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
@@ -1008,6 +1008,7 @@ org.apache.ibatis.session.defaults.DefaultSqlSessionFactory
 		</property>
 	</bean>
 
+    <context:property-placeholder location="classpath:config/values.properties"/>
 
 	<!-- Datasource 구현체인 BasicDataSource 클래스를 Bean으로 등록 -->
 	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
@@ -1889,6 +1890,7 @@ public class UserDaoImpl implements UserDao {
 		</property>
 	</bean>
 
+    <context:property-placeholder location="classpath:config/values.properties"/>
 
 	<!-- Datasource 구현체인 BasicDataSource 클래스를 Bean으로 등록 -->
 	<bean id="dataSource"
