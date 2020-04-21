@@ -15,23 +15,23 @@
 		<h2 class="text-center">사용자 정보 수정</h2>
 		<div>
 			<form method="post" action="userUpdate.do">
-				<input type="hidden" name="userId"  value="${map.user.userId}" />
+				<input type="hidden" name="userId"  value="${sessionScope.user.userId}" />
 				<table class="table table-bordered table table-hover">
 					<tr>
 						<td>아이디 :</td>
-						<td>${map.user.userId}</td>
+						<td>${sessionScope.user.userId}</td>
 					</tr>
 					<tr>
 						<td>이름 :</td>
-						<td><input type="text" name="name" value="${map.user.name}" />
+						<td><input type="text" name="name" value="${sessionScope.user.name}" />
 						</td>
 					</tr>
 					<tr>
 						<td>성별 :</td>
 						<td>
-								<c:forEach items='${map.genderList}' var='genderName'>
+								<c:forEach items='${sessionScope.genderList}' var='genderName'>
 									<c:choose>
-										<c:when test="${genderName eq map.user.gender}">
+										<c:when test="${genderName eq sessionScope.user.gender}">
 											<input type="radio" name="gender" value="${genderName}"
 												checked="checked">${genderName}
 										</c:when>
@@ -46,9 +46,9 @@
 						<td>거주지 :</td>
 						<td>
 								<select name="city">
-									<c:forEach items='${map.cityList}' var='cityName'>
+									<c:forEach items='${sessionScope.cityList}' var='cityName'>
 										<c:choose>
-											<c:when test="${cityName eq map.user.city}">
+											<c:when test="${cityName eq sessionScope.user.city}">
 												<option value="${cityName}" selected>${cityName}</option>
 											</c:when>
 											<c:otherwise>

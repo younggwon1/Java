@@ -1,4 +1,5 @@
 package myspring.user.controller;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -53,8 +54,8 @@ public class UserController {
 		List<String> genderList = new ArrayList<String>();
 		genderList.add("남");
 		genderList.add("여");
-		
-		//session에 genderList를 저장해보기
+
+		// session에 genderList를 저장해보기
 		session.setAttribute("genderList", genderList);
 
 		List<String> cityList = new ArrayList<String>();
@@ -63,64 +64,95 @@ public class UserController {
 		cityList.add("부산");
 		cityList.add("대구");
 		cityList.add("제주");
-		
-		//session에 cityList를 저장해보기
+
+		// session에 cityList를 저장해보기
 		session.setAttribute("cityList", cityList);
 
-		//session에 저장했기 때문에 Map은 필요없다.
+		// session에 저장했기 때문에 Map은 필요없다.
 //		Map<String, List<String>> map = new HashMap<>();
 //		map.put("genderList", genderList);
 //		map.put("cityList", cityList);
 
 		return "userInsert";
 	}
-	
-	//사용자 등록 처리
-	//post방식이기 때문에 다음과 같이 사용해야한다. method 언급을 안하게 되면 get으로 인식
-	//<form method="post" action="userInsert.do" >
-	//value = "/userInsert.do",method = RequestMethod.POST
-	@RequestMapping(value = "/userInsert.do",method = RequestMethod.POST)
+
+	// 사용자 등록 처리
+	// post방식이기 때문에 다음과 같이 사용해야한다. method 언급을 안하게 되면 get으로 인식
+	// <form method="post" action="userInsert.do" >
+	// value = "/userInsert.do",method = RequestMethod.POST
+	@RequestMapping(value = "/userInsert.do", method = RequestMethod.POST)
 	public String userInsert(@ModelAttribute UserVO user) {
 		System.out.println(">>> UserVO " + user);
 		userService.insertUser(user);
-		//사용자 목록 조회를 처리하는 요청으로 포워딩을 하겠다.(사용자 목록 페이지로 포워딩)
+		// 사용자 목록 조회를 처리하는 요청으로 포워딩을 하겠다.(사용자 목록 페이지로 포워딩)
 		return "redirect:/userList.do";
 	}
-	
-	//사용자 삭제 처리
+
+	// 사용자 삭제 처리
 	@RequestMapping("/userDelete.do/{id}")
 	public String userDelete(@PathVariable("id") String userid) {
 		userService.deleteUser(userid);
-		//사용자 목록 조회를 처리하는 요청으로 포워딩을 하겠다.(사용자 목록 페이지로 포워딩)
+		// 사용자 목록 조회를 처리하는 요청으로 포워딩을 하겠다.(사용자 목록 페이지로 포워딩)
 		return "redirect:/userList.do";
 	}
-	
-	//사용자 수정Form 조회
+
+	// 사용자 수정Form 조회
 	@RequestMapping("/userUpdateForm.do")
-	public ModelAndView updateUserForm(@RequestParam String userid) {
+	public String updateUserForm(@RequestParam String userid, HttpSession session) {
 		UserVO user = userService.getUser(userid);
 		List<String> genderList = new ArrayList<String>();
 		genderList.add("남");
 		genderList.add("여");
+		session.setAttribute("genderList", genderList);
+
 		List<String> cityList = new ArrayList<String>();
 		cityList.add("서울");
 		cityList.add("부산");
+		cityList.add("경기");
 		cityList.add("대구");
 		cityList.add("제주");
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("genderList", genderList);
-		map.put("cityList", cityList);
-		map.put("user", user);
-		return new ModelAndView("userUpdate", "map", map);
+		session.setAttribute("cityList", cityList);
+
+		session.setAttribute("user", user);
+		return "userUpdate";
+
 	}
-	
-	//사용자 수정 처리
-	@RequestMapping(value = "/userUpdate.do",method = RequestMethod.POST)
+
+	// 사용자 수정 처리
+	@RequestMapping(value = "/userUpdate.do", method = RequestMethod.POST)
 	public String userUpdate(@ModelAttribute UserVO user) {
 		System.out.println(">>> UserVO " + user);
-		userService.updateUser(user);;
-		//사용자 목록 조회를 처리하는 요청으로 포워딩을 하겠다.(사용자 목록 페이지로 포워딩)
+		userService.updateUser(user);
+		// 사용자 목록 조회를 처리하는 요청으로 포워딩을 하겠다.(사용자 목록 페이지로 포워딩)
 		return "redirect:/userList.do";
 	}
-	
+
+//	// 사용자 수정Form 조회
+//
+//	@RequestMapping("/userUpdateForm.do")
+//	public ModelAndView updateUserForm(@RequestParam String userid) {
+//		UserVO user = userService.getUser(userid);
+//		List<String> genderList = new ArrayList<String>();
+//		genderList.add("남");
+//		genderList.add("여");
+//		List<String> cityList = new ArrayList<String>();
+//		cityList.add("서울");
+//		cityList.add("부산");
+//		cityList.add("대구");
+//		cityList.add("제주");
+//		Map<String, Object> map = new HashMap<String, Object>();
+//		map.put("genderList", genderList);
+//		map.put("cityList", cityList);
+//		map.put("user", user);
+//		return new ModelAndView("userUpdate", "map", map);
+//	}
+//
+//	// 사용자 수정 처리
+//
+//	@RequestMapping(value = "/userUpdate.do", method = RequestMethod.POST) public
+//	  String userUpdate(@ModelAttribute UserVO user) {
+//	  System.out.println(">>> UserVO " + user); userService.updateUser(user); ; //
+//	  사용자 목록 조회를 처리하는 요청으로 포워딩을 하겠다.(사용자 목록 페이지로 포워딩) return
+//	  "redirect:/userList.do"; }
+
 }

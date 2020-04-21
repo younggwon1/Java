@@ -43,7 +43,7 @@
 						<input type="submit" value="등록" /></td>
 					</tr>
 					<tr>					
-						<td colspan="2" class="text-center"><a href="getUserList.do">사용자 목록보기</a></td>
+						<td colspan="2" class="text-center"><a href="userList.do">사용자 목록보기</a></td>
 					</tr>
 				</table>
 			</form>
