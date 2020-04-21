@@ -1711,23 +1711,33 @@ public class UserController {
 
 
 
+#### Jackson : json parser
+
+- java object -> json
+
+- json ->  java object
 
 
 
+#### JAXB(java api for xml binding) : 
+
+- jdk1.8에는 포함되어 있었지만, jdk10부터는 포함되지 않음
+
+- java object -> xml
+
+- xml ->  java object
 
 
 
+#### ORM(Object Relational Mapping)
 
+> 객체와 관계형 데이터베이스의 데이터를 자동으로 매핑(연결)해주는 것을 말한다.
 
+- MyBatis, JPA
 
+#### OXM(Object XML Mapping)
 
-
-
-
-
-
-
-
+- JAXB, Jackson xml
 
 
 
