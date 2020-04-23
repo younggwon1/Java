@@ -1799,3 +1799,53 @@ public class AccountRepositoryTest {
 - : Java8은 함수형 언어의 접근 방식에서 영감을 받아 java.util.Optional라는 새로운 클래스를 도입하였다. 
 - : Optional는 “존재할 수도 있지만 안할 수도 있는 객체”, 즉, ”null이 될 수도 있는 객체” 을 감싸고 있는 일종의 래퍼 클래스이다. 
 - : 명시적으로 해당 변수가 null일 수도 있다는 가능성을 표현할 수 있다. (따라서 불필요한 NullPointException 방어 로직을 줄일 수 있다.)
+
+
+
+---
+
+#### Lambda(참고하기) <- 이 부분은 많이 사용하기 때문에 알아둬야한다.
+
+```java
+# UsingLambda.java
+
+package lambda;
+
+public class UsingLambda {
+	public static void main(String[] args) {
+		//1. Thread 생성 
+		Thread t1 = new Thread(new MyRunnable());
+		t1.setName("둘리");
+		t1.start();
+		
+		//2. Anonymous Inner Class 익명 클래스 형태로
+		Thread t2 = new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				System.out.println(Thread.currentThread().getName());
+			}
+		});
+		
+		t2.setName("길동");
+		t2.start();
+		
+		
+		//3. Lambda 식 형태로
+		//추상메서드가 1개이어야한다. 그 이유는 메서드를 표시하지 않는데 1개 이상이면 어떤걸 오버라이딩하는지 모르기 때문이다.
+		Thread t3 = new Thread(() -> System.out.println(Thread.currentThread().getName()));
+		t3.setName("자바");
+		t3.start();
+	}
+}
+
+//1.
+class MyRunnable implements Runnable{
+	@Override
+	public void run() {
+		System.out.println(Thread.currentThread().getName());
+	}
+}
+```
+
+---
