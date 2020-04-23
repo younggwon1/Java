@@ -1,3 +1,5 @@
+
+
 # Spring Boot
 
 > 단독으로 실행이 가능하고(stand-alone), 제품 수준의(production-grade) 스프링 기반 어플리케이션을 제작하는 것을 목표로 진행된 프로젝트
@@ -1806,6 +1808,61 @@ public class AccountRepositoryTest {
 
 #### Lambda(참고하기) <- 이 부분은 많이 사용하기 때문에 알아둬야한다.
 
+#### (매개변수, ...) -> { 실행문 ... }
+
+	Lambda 식 형태로
+	1.함수형 인터페이스는 추상메서드가 1개이어야한다. 그 이유는 메서드를 표시하지 않는데 1개 이상이면 어떤걸 오버라이딩하는지 모르기 때문이다.
+	2.함수형 인터페이스는 람다식으로 표현할 수 있다.
+**람다식 장점**
+
+**1.** 코드를 간결하게 만들 수 있다.
+
+**2.** 코드가 간결하고 식에 개발자의 의도가 명확히 드러나므로 가독성이 향상된다.
+
+**3.** 함수를 만드는 과정없이 한번에 처리할 수 있기에 코딩하는 시간이 줄어든다.
+
+**4.** 병렬프로그래밍이 용이하다.
+
+
+
+**람다식 단점**
+
+**1.** 람다를 사용하면서 만드는 무명함수는 재사용이 불가능하다.
+
+**2.** 디버깅이 다소 까다롭다.
+
+**3.** 람다를 남발하면 코드가 지저분해질 수 있다. (비슷한 함수를 계속 중복생성할 가능성이 높음)
+
+**4.** 재귀로 만들경우에는 다소 부적합한면이 있다.
+
+
+
+##### 람다식으로 자주 사용되는 함수형 인터페이스
+
+[java api doc](https://docs.oracle.com/javase/8/docs/api/)
+
+**java.util.function**을 클릭하여 인터페이스를 확인해보자.
+
+
+
+```java
+Lambda Expression 람다식
+(매개변수, ...) -> { 실행문 ... }
+
+fuction add(n1,n2){
+	return n1+n2;
+}
+
+add(10,20);
+
+이것을 람다식으로 만들어보면,
+//arrow function
+add2 = (n1,n2) -> n1 + n2;
+add(10,20);
+```
+
+#### [실습]
+
 ```java
 # UsingLambda.java
 
@@ -1832,7 +1889,8 @@ public class UsingLambda {
 		
 		
 		//3. Lambda 식 형태로
-		//추상메서드가 1개이어야한다. 그 이유는 메서드를 표시하지 않는데 1개 이상이면 어떤걸 오버라이딩하는지 모르기 때문이다.
+		//함수형 인터페이스는 추상메서드가 1개이어야한다. 그 이유는 메서드를 표시하지 않는데 		   1개 이상이면 어떤걸 오버라이딩하는지 모르기 때문이다.
+        //함수형 인터페이스는 람다식으로 표현할 수 있다.
 		Thread t3 = new Thread(() -> System.out.println(Thread.currentThread().getName()));
 		t3.setName("자바");
 		t3.start();
@@ -1848,4 +1906,371 @@ class MyRunnable implements Runnable{
 }
 ```
 
+
+
+```java
+# UsingFunctional.java
+
+package lambda;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
+
+public class UsingFunctional {
+	public static void main(String[] args) {
+		List<String> list = new ArrayList<>();
+		list.add("java");
+		list.add("scalar");
+		list.add("python");
+		
+		for (String value : list) {
+			System.out.println(value);
+		}
+		
+		//Anonymous Inner Class
+		list.forEach(new Consumer<String>() {
+			@Override
+			public void accept(String value) {
+				System.out.println(value);
+				
+			}
+		});
+		
+		//람다식으로 표현해보자
+		list.forEach(value -> System.out.println(value));
+		
+		//Method Reference
+		list.forEach(System.out::println);
+		
+		
+	}
+}
+
+	
+}
+
+결과
+java
+scalar
+python
+java
+scalar
+python
+java
+scalar
+python
+java
+scalar
+python
+```
+
+
+
+```java
+# UsingFunctional.java
+
+package lambda;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
+
+public class UsingFunctional {
+	public static void main(String[] args) {
+
+			
+		List<Student> stuList = List.of(new Student(100,"홍길동"), new Student(200,"둘리"), new Student(300,"펭수")); 
+		
+		//Anonymous Inner Class
+		stuList.forEach(new Consumer<Student>() {
+			@Override
+			public void accept(Student stu) {
+				System.out.println(stu);
+				
+			}
+		});
+		
+		//람다식으로 표현해보자
+		stuList.forEach(stu -> System.out.println(stu));
+		
+		//Method Reference
+		stuList.forEach(System.out::println);
+	}
+}
+
+
+class Student{
+	private int id;
+	private String name;
+	
+	
+	public Student(int id, String name) {
+		super();
+		this.id = id;
+		this.name = name;
+	}
+	
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	
+	@Override
+	public String toString() {
+		return "Student [id=" + id + ", name=" + name + "]";
+	}
+	
+}
+
+결과
+Student [id=100, name=홍길동]
+Student [id=200, name=둘리]
+Student [id=300, name=펭수]
+Student [id=100, name=홍길동]
+Student [id=200, name=둘리]
+Student [id=300, name=펭수]
+Student [id=100, name=홍길동]
+Student [id=200, name=둘리]
+Student [id=300, name=펭수]
+```
+
+
+
+```java
+# UsingFunctional.java
+
+package lambda;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
+import java.util.stream.Stream;
+
+public class UsingFunctional {
+	public static void main(String[] args) {
+
+		List<Student> stuList2 = List.of(new Student(10,"자바"), new Student(20,"코틀린"), new Student(30,"스칼라"));
+		
+		//List -> Stream 변환
+		//학생번호가 20보다 큰 학생이름을 List<String>으로 출력하세요.
+		Stream<Student> stream = stuList2.stream();
+		stuList2.stream()
+            .filter(stu -> stu.getId() >= 20)
+            .forEach(stu -> System.out.println(stu));
+
+	}
+}
+
+
+class Student{
+	private int id;
+	private String name;
+	
+	
+	public Student(int id, String name) {
+		super();
+		this.id = id;
+		this.name = name;
+	}
+	
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	
+	@Override
+	public String toString() {
+		return "Student [id=" + id + ", name=" + name + "]";
+	}
+	
+}
+
+결과
+Student [id=20, name=코틀린]
+Student [id=30, name=스칼라]
+```
+
+
+
+```java
+# UsingFunctional.java
+
+package lambda;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
+import java.util.stream.Stream;
+
+public class UsingFunctional {
+	public static void main(String[] args) {
+
+		List<Student> stuList2 = List.of(new Student(10,"자바"), new Student(20,"코틀린"), new Student(30,"스칼라"));
+		
+		//List -> Stream 변환
+		//학생번호가 20보다 큰 학생이름을 List<String>으로 출력하세요.
+		Stream<Student> stream = stuList2.stream();
+		stuList2.stream()
+			.filter(stu -> stu.getId() >= 20)
+			.map(stu -> stu.getName())
+			.forEach(stu -> System.out.println(stu));
+
+	}
+}
+
+
+class Student{
+	private int id;
+	private String name;
+	
+	
+	public Student(int id, String name) {
+		super();
+		this.id = id;
+		this.name = name;
+	}
+	
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	
+	@Override
+	public String toString() {
+		return "Student [id=" + id + ", name=" + name + "]";
+	}
+	
+}
+
+결과
+코틀린
+스칼라
+```
+
+
+
 ---
+
+
+
+```java
+# AccountRepository.java
+
+package com.dudrnjs.myspringboot.repository;
+
+import java.util.Optional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.dudrnjs.myspringboot.entity.Account;
+
+public interface AccountRepository extends JpaRepository<Account, Long>{
+	Optional<Account> findByUsername(String username);
+}
+```
+
+
+
+```java
+# AccountRepositoryTest.java
+
+package com.dudrnjs.myspringboot.repository;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.Optional;
+
+import org.junit.Ignore;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+
+import com.dudrnjs.myspringboot.entity.Account;
+
+@RunWith(SpringRunner.class)
+@SpringBootTest
+public class AccountRepositoryTest {
+	@Autowired
+	AccountRepository repository;
+	
+	@Test
+	public void findByUsername() throws Exception {
+//		Account existAcct = repository.findByUsername("spring");
+//		assertThat(existAcct).isNotNull();
+//		
+//		Account notExistAcct = repository.findByUsername("test");
+//		assertThat(notExistAcct).isNull();
+		
+		Optional<Account> existOpt = repository.findByUsername("spring");
+		System.out.println(existOpt.isPresent()); //true
+		if(existOpt.isPresent()) {
+			Account existAcct = existOpt.get();
+			System.out.println(existAcct);
+		}
+		
+		
+		Account account = existOpt.orElseThrow(() -> new RuntimeException("존재하지 않는 username입니다."));
+		System.out.println("존재하는 Account : " + account);
+		
+		Optional<Account> notexistOpt = repository.findByUsername("test");
+		System.out.println(notexistOpt.isPresent()); //false
+		
+		//false일 때는 get을 사용하면 안된다. -> NoSuchElementException이 발생한다.
+		//Account notexistAcct = notexistOpt.get();
+		//System.out.println(notexistAcct);
+		
+		//orElseThrow()의 아규먼트 타입은 함수형 인터페이스 Supplier이다. 그래서 람다식으로 표현
+		//Supplier의 추상메서드 - T get()
+		Account notexistAcct = notexistOpt.orElseThrow(() -> new RuntimeException("존재하지 않는 username입니다."));
+		System.out.println(notexistAcct);
+
+	}
+	
+	@Test @Ignore
+	public void account() throws Exception {
+		//System.out.println(repository.getClass().getName());
+		Account account = new Account();
+		account.setUsername("spring");
+		account.setPassword("1234");
+		
+		Account saveAcct = repository.save(account);
+		System.out.println(saveAcct);
+		assertThat(saveAcct).isNotNull();
+		
+	}
+}
+```
+
