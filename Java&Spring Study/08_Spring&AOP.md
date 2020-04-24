@@ -2,10 +2,20 @@
 
 ### AOP(Aspect Oriented Programming)
 
+- **핵심기능과 부가기능을 분리하자!!**
+  - **핵심기능** : dao, service, controller와 같은 업무 로직을 포함하는 모듈
+  - **부가기능** : 공통적으로 사용되는 로직을 포함하는 모듈
+  - 핵심기능에서 부가기능을 직접 호출하지 않는다. 
+    - **핵심기능과 부가기능을 합쳐주는(Weaving) 역할은 Framework가 Runtime에 한다.**
 - **AOP를 통해 부가적인 공통 코드들을 효율적으로 관리**
 - **관점(관심) 지향 프로그래밍**
 - 부가기능적인 측면에서 보았을때 공통된 요소를 추출하자는 것이다. -> **공통된 기능을 재사용하는 기법**
 - DI는 낮은 결합도를 위한 것이라면 **AOP는 높은 응집도를 위한 것**
+
+- 특징 : 
+  - Spring은 프록시(Proxy) 기반 AOP를 지원한다.
+  - 프록시(Proxy)가 호출을 가로챈다(Intercept).
+  - Spring AOP는 메서드 조인 포인트만 지원한다.
 
 
 
@@ -34,6 +44,40 @@
 
 - **실질적으로 부가기능을 담은 구현체, 공통기능을 담고있는 모듈**
 
+- 로깅, 인증, 트랜잭션처리, 응답시간 체크 등등
+
+- 유형 : 
+
+  - before : target 호출 전
+  - after : target 호출 후, 정상/예외 상관없이 항상 호출
+  - after-throwing : target 호출 후, 에러가 발생하면 호출
+  - after-returning : target 호출 후, 정상이면 호출
+  - around : target 호출 전, 후
+
+- Advice 클래스 작성
+
+  - 메서드에서 JoinPoint, ProceedingJoinPoint을 주입 받는다.
+
+  - joinPoint.getSignature().getName(); <- target 메서드 이름
+
+  - ProceedingJoinPoint - proceed()
+
+  - Spring Bean Conf xml
+
+    ```xml
+    <bean id="ptAdvice" class="myspring.aop.xml.PerformanceTraceAdvice"/>
+    	<aop:config>
+    		<aop:aspect ref="ptAdvice">
+    			<aop:around method="trace" pointcut="execution(public * myspring.user..*(..))"/>
+    		</aop:aspect>
+    	</aop:config>
+    ```
+
+  - @Aspect
+
+    - 클래스안에 pointcut 설정
+    - @Before, @AfterReturning, @AfterThrowing, @After, @Around
+
 
 
 #### **PointCut**
@@ -46,6 +90,7 @@
 #### **JoinPoint**
 
 - **어드바이스가 적용될 수 있는 위치**, 끼어들 수 있는 지점. 메서드 진입 지점, 생성자 호출 시점, 필드에서 값을 꺼내올 때 등 다양한 시점에 적용가능
+- **target에 포함된 메서드, joinpoint 메서드가 런타임 호출될 때 advice와 target이 합쳐진다.**
 - 클라이언트가 호출하는 모든 비즈니스 메소드, 모든 메소드를 조인포인트로 생각하면 된다. -> 이 중에서 포인트컷이 결정 됨.
 
 
