@@ -2234,6 +2234,7 @@ public class AccountRepositoryTest {
 //		Account notExistAcct = repository.findByUsername("test");
 //		assertThat(notExistAcct).isNull();
 		
+		//username이 있는 경우
 		Optional<Account> existOpt = repository.findByUsername("spring");
 		System.out.println(existOpt.isPresent()); //true
 		if(existOpt.isPresent()) {
@@ -2241,10 +2242,11 @@ public class AccountRepositoryTest {
 			System.out.println(existAcct);
 		}
 		
-		
 		Account account = existOpt.orElseThrow(() -> new RuntimeException("존재하지 않는 username입니다."));
 		System.out.println("존재하는 Account : " + account);
 		
+		
+		//username이 없는 경우
 		Optional<Account> notexistOpt = repository.findByUsername("test");
 		System.out.println(notexistOpt.isPresent()); //false
 		
@@ -2274,3 +2276,129 @@ public class AccountRepositoryTest {
 }
 ```
 
+
+
+---
+
+
+
+#### Spring Data : JPA를 사용한 데이터베이스 초기화
+
+```
+# application.properties
+
+# jpa
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+```
+
+
+
+```java
+# Account.java
+
+package com.dudrnjs.myspringboot.entity;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
+public class Account {
+	@Id
+	@GeneratedValue
+	private Long id;
+
+	@Override
+	public String toString() {
+		return "Account [id=" + id + ", username=" + username + ", password=" + password + "]";
+	}
+
+	@Column(unique = true) // 중복 허용x
+	private String username;
+
+	@Column
+	private String password;
+	
+	@Column
+	private String email;
+	
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+	
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((password == null) ? 0 : password.hashCode());
+		result = prime * result + ((username == null) ? 0 : username.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Account other = (Account) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (password == null) {
+			if (other.password != null)
+				return false;
+		} else if (!password.equals(other.password))
+			return false;
+		if (username == null) {
+			if (other.username != null)
+				return false;
+		} else if (!username.equals(other.username))
+			return false;
+		return true;
+	}
+}
+
+```
+
+
+
+![캡처](https://user-images.githubusercontent.com/42603919/80165193-e608e800-8615-11ea-98bf-6d7d7c693c8f.PNG)
+
+**--> email 컬럼이 추가된 것을 확인할 수 있다.**
