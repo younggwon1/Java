@@ -4,7 +4,7 @@
 
 실행화면
 
-![캡처](https://user-images.githubusercontent.com/42603919/79036074-70f1e780-7bff-11ea-9769-67cbc8ef8491.PNG)
+<img src="https://user-images.githubusercontent.com/42603919/79036074-70f1e780-7bff-11ea-9769-67cbc8ef8491.PNG" alt="캡처" style="zoom:67%;" />
 
 
 
@@ -54,13 +54,13 @@ Oracle은 Maven Repository가 아닌 직접 사이트에 가서 다운받기.
 
 
 
-### 1. javase 포함된 JDBC api는 인터페이스가 대부분을 차지한다.
+##### 1. javase 포함된 JDBC api는 인터페이스가 대부분을 차지한다.
 
-### 2. java.sql, javax.sql package
+##### 2. java.sql, javax.sql package
 
-### 3. 인터페이스 구현은 DB vender가 한다.
+##### 3. 인터페이스 구현은 DB vender가 한다.
 
-### 4. 접속하기 위해서 DB vender가 제공하는 JDBC Driver jar(zip)을 사용해야 한다.
+##### 4. 접속하기 위해서 DB vender가 제공하는 JDBC Driver jar(zip)을 사용해야 한다.
 
 
 
