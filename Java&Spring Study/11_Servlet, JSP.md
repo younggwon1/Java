@@ -28,16 +28,19 @@
 
 - JSP와 비슷한 종류는 php, asp
 
-- html, css, javascript : 정적인(static) 컨텐츠 생산, html 에서 UserDAO(DB 연동) 객체의 method를 호출(x)
+- html, css, javascript : 정적인(static) 컨텐츠 생산
+
+  - html 에서 UserDAO(DB 연동) 객체의 method를 호출(x)
 
 - Servlet, JSP : 동적인(dynamic) 컨텐츠 생산
   
 - **Servlet** : java code 내에 html을 포함시킬 수 있다. 컴파일 방식
+  
   - **JSP** : html 내에 java code를 포함시킬 수 있다. 스크립트 방식
   
   - **html -> servlet, JSP -> DAO객체**
   
-- MVC 패턴
+- **MVC 패턴**
 
   - **Model, View, Controller**의 약자
 
@@ -69,65 +72,55 @@
 
 
 
-### [실습]
+### [실습] Dynamic web project
+
+> ### **WebContent : jsp, html**
+>
+> ### **src : java 클래스 종류**(DAO, VO, Servlet)
+
+
 
 **dynamic web project 생성하기**
 
-![캡처](https://user-images.githubusercontent.com/42603919/79406432-04e1fb80-7fd2-11ea-8d5f-8af4ca5b450e.PNG)
+<img src="https://user-images.githubusercontent.com/42603919/79406432-04e1fb80-7fd2-11ea-8d5f-8af4ca5b450e.PNG" alt="캡처" style="zoom:80%;" />
 
 
 
-![캡처](https://user-images.githubusercontent.com/42603919/79406440-090e1900-7fd2-11ea-970c-4bc0465da164.PNG)
+<img src="https://user-images.githubusercontent.com/42603919/79406440-090e1900-7fd2-11ea-970c-4bc0465da164.PNG" alt="캡처" style="zoom:80%;" />
 
 
 
-![캡처](https://user-images.githubusercontent.com/42603919/79406536-55f1ef80-7fd2-11ea-97b9-102bd6edddd4.PNG)
+<img src="https://user-images.githubusercontent.com/42603919/79406536-55f1ef80-7fd2-11ea-97b9-102bd6edddd4.PNG" alt="캡처" style="zoom:80%;" />
 
 
 
 ![캡처](https://user-images.githubusercontent.com/42603919/79406760-dd3f6300-7fd2-11ea-8367-2e06f96b34aa.PNG)
 
-
-
 ---
 
+#### JSP 생성을 위한 설정
 
+1. **Window -> Web browser -> Chrome (실행할 때 chrome으로 실행된다.)**
 
-### **WebContent : jsp, html**
-
-### **src : java 클래스 종류**(DAO, VO, Servlet)
-
-
-
----
-
-#### 설정
-
-Window -> Web browser -> Chrome (실행할 때 chrome으로 실행된다.)
-
----
-
-### UTF-8로 설정
+2. **UTF-8로 설정**
 
 **Window -> Preferences**
 
-![캡처](https://user-images.githubusercontent.com/42603919/79407109-a453be00-7fd3-11ea-8064-0d98913b95c1.PNG)
+<img src="https://user-images.githubusercontent.com/42603919/79407109-a453be00-7fd3-11ea-8064-0d98913b95c1.PNG" alt="캡처" style="zoom:80%;" />
 
----
-
-### JSP 만들기
+3. **JSP 만들기**
 
 **WebContent 우측버튼 -> new -> other**
 
-![캡처](https://user-images.githubusercontent.com/42603919/79407059-7f5f4b00-7fd3-11ea-8b13-4446d0b90fd6.PNG)
+<img src="https://user-images.githubusercontent.com/42603919/79407059-7f5f4b00-7fd3-11ea-8b13-4446d0b90fd6.PNG" alt="캡처" style="zoom:80%;" />
 
 
 
-![캡처](https://user-images.githubusercontent.com/42603919/79407502-54c1c200-7fd4-11ea-9482-bbea3e2ce9d3.PNG)
+<img src="https://user-images.githubusercontent.com/42603919/79407502-54c1c200-7fd4-11ea-9482-bbea3e2ce9d3.PNG" alt="캡처" style="zoom:80%;" />
 
 
 
-![캡처](https://user-images.githubusercontent.com/42603919/79407601-6b681900-7fd4-11ea-8301-39169d49cbe0.PNG)
+<img src="https://user-images.githubusercontent.com/42603919/79407601-6b681900-7fd4-11ea-8301-39169d49cbe0.PNG" alt="캡처" style="zoom:80%;" />
 
 
 
@@ -164,27 +157,25 @@ Window -> Web browser -> Chrome (실행할 때 chrome으로 실행된다.)
 </html>
 ```
 
-
-
-**tomcat에  배포하기**
+4. **tomcat에  배포하기**
 
 **tomcat 우측버튼 클릭 -> add and remove**
 
-![캡처](https://user-images.githubusercontent.com/42603919/79408214-c64e4000-7fd5-11ea-8b31-34fce892e3b3.PNG)
+<img src="https://user-images.githubusercontent.com/42603919/79408214-c64e4000-7fd5-11ea-8b31-34fce892e3b3.PNG" alt="캡처" style="zoom:80%;" />
 
 
 
-### RUN하기
+#### RUN하기
 
 **JSP file 우측버튼 -> run as -> run on server**
 
-![캡처](https://user-images.githubusercontent.com/42603919/79408257-e2ea7800-7fd5-11ea-97fa-8cbe26476804.PNG)
+<img src="https://user-images.githubusercontent.com/42603919/79408257-e2ea7800-7fd5-11ea-97fa-8cbe26476804.PNG" alt="캡처" style="zoom:80%;" />
 
 
 
-### 실행결과
+#### 실행결과
 
-![캡처](https://user-images.githubusercontent.com/42603919/79408408-3a88e380-7fd6-11ea-983d-385391d1677c.PNG)
+<img src="https://user-images.githubusercontent.com/42603919/79408408-3a88e380-7fd6-11ea-983d-385391d1677c.PNG" alt="캡처" style="zoom:80%;" />
 
 
 
@@ -196,23 +187,23 @@ Window -> Web browser -> Chrome (실행할 때 chrome으로 실행된다.)
 
 **src 우측버튼-> new -> other**
 
-![캡처](https://user-images.githubusercontent.com/42603919/79413589-50e96c00-7fe3-11ea-8de4-3c0ac7cabce3.PNG)
+<img src="https://user-images.githubusercontent.com/42603919/79413589-50e96c00-7fe3-11ea-8de4-3c0ac7cabce3.PNG" alt="캡처" style="zoom:80%;" />
 
 
 
-![캡처](https://user-images.githubusercontent.com/42603919/79413606-5ba40100-7fe3-11ea-9e7e-249fd95b6f4c.PNG)
+<img src="https://user-images.githubusercontent.com/42603919/79413606-5ba40100-7fe3-11ea-9e7e-249fd95b6f4c.PNG" alt="캡처" style="zoom:80%;" />
 
 
 
-![캡처](https://user-images.githubusercontent.com/42603919/79413633-71192b00-7fe3-11ea-874e-2dfee5ca1a42.PNG)
+<img src="https://user-images.githubusercontent.com/42603919/79413633-71192b00-7fe3-11ea-874e-2dfee5ca1a42.PNG" alt="캡처" style="zoom:80%;" />
 
 
 
-![캡처](https://user-images.githubusercontent.com/42603919/79413701-9e65d900-7fe3-11ea-9434-c1b69fb981c2.PNG)
+<img src="https://user-images.githubusercontent.com/42603919/79413701-9e65d900-7fe3-11ea-9434-c1b69fb981c2.PNG" alt="캡처" style="zoom:80%;" />
 
 
 
-![캡처](https://user-images.githubusercontent.com/42603919/79413710-a756aa80-7fe3-11ea-9e8c-4f336f841ec0.PNG)
+<img src="https://user-images.githubusercontent.com/42603919/79413710-a756aa80-7fe3-11ea-9e8c-4f336f841ec0.PNG" alt="캡처" style="zoom:80%;" />
 
 
 
@@ -344,17 +335,17 @@ public class HelloServlet extends HttpServlet {
 
 ![캡처](https://user-images.githubusercontent.com/42603919/79419908-ba24ab80-7ff2-11ea-9c18-ed5de4377139.PNG)
 
-**흐름 : index.jsp에서 user.servlet을 호출한다. 그리고 user.servlet에서 dao를 부르고 db에 접속한다. db에서 받아온 것을 dao로 전달하고 dao한테 받아온 list를 userlist.jsp에 전달해야한다. 따라서 userlist.jsp에서 for문을 돌려 출력되게한다. 따라서 데이터를 받기 위해서는 controller를 통해서 가져와야한다.**
+**흐름 : index.jsp에서 user.servlet을 호출한다. 그리고 user.servlet에서 dao를 부르고 db에 접속한다.(JDBC : DB 데이터 조회) db에서 받아온 것을 dao로 전달하고 dao한테 받아온 list를 userlist.jsp에 전달해야한다. 따라서 userlist.jsp에서 for문을 돌려 출력되게한다. 따라서 데이터를 받기 위해서는 controller를 통해서 가져와야한다.**
 
 
 
-![캡처](https://user-images.githubusercontent.com/42603919/79418404-8431f800-7fef-11ea-8e6f-f3bc2e4a0493.PNG)
+<img src="https://user-images.githubusercontent.com/42603919/79418404-8431f800-7fef-11ea-8e6f-f3bc2e4a0493.PNG" alt="캡처" style="zoom:80%;" />
 
 
 
 ### Servlet 생성
 
-![캡처](https://user-images.githubusercontent.com/42603919/79418632-13d7a680-7ff0-11ea-994f-a78b46146120.PNG)
+<img src="https://user-images.githubusercontent.com/42603919/79418632-13d7a680-7ff0-11ea-994f-a78b46146120.PNG" alt="캡처" style="zoom:80%;" />
 
 
 
@@ -429,6 +420,13 @@ public class UserServlet extends HttpServlet {
 
 
 ### console에 찍어보기
+
+```
+List<UserVO> users = dao.getUsers();
+System.out.println(users); //console에 찍어보기
+```
+
+
 
 ```java
 # UserServlet.java
@@ -508,6 +506,11 @@ public class UserServlet extends HttpServlet {
 
 
 ### 브라우저에 찍어보기
+
+- **request.setAttribute()** 
+  - DAO로 받아온 List 객체를 JSP에서 사용할 수 있도록 reguest 객체를 저장한다. 정보를 입력할 수 있다.
+- **request.getRequestDispatcher()**
+  - 결과를 출력해줄 JSP - UserList.jsp를 포워딩
 
 ```java
 # UserServlet.java
@@ -593,11 +596,11 @@ public class UserServlet extends HttpServlet {
 
 ### userList.jsp 생성하기
 
-![캡처](https://user-images.githubusercontent.com/42603919/79422485-eb53aa80-7ff7-11ea-9e8f-6ae5cade8f4d.PNG)
+<img src="https://user-images.githubusercontent.com/42603919/79422485-eb53aa80-7ff7-11ea-9e8f-6ae5cade8f4d.PNG" alt="캡처" style="zoom:80%;" />
 
 
 
-![캡처](https://user-images.githubusercontent.com/42603919/79422504-f73f6c80-7ff7-11ea-89f5-f60ac5420bff.PNG)
+<img src="https://user-images.githubusercontent.com/42603919/79422504-f73f6c80-7ff7-11ea-89f5-f60ac5420bff.PNG" alt="캡처" style="zoom:80%;" />
 
 
 
@@ -640,6 +643,10 @@ public class UserServlet extends HttpServlet {
 
 
 
+- **request.getAttribute()**
+  - Object Type이기 때문에 List<UserVO>를 통해 형변환을 해주어야 한다.
+  - UserServlet.java가 포워딩한 정보를 **request.getAttribute()**를 통해서 받을 수 있다.
+
 ```jsp
 # userList.jsp
 
@@ -666,13 +673,17 @@ public class UserServlet extends HttpServlet {
 
 
 
-### JSTL.jar파일 받아오기
+#### JSTL
 
 > jstl이란? JSP Standard Tag Library의 약어 
 >
 > 사용 목적 : 1. scriptless, jsp를 작성할 때 java code를 배제하기 위해서 사용(<% %>)
 
-![캡처](https://user-images.githubusercontent.com/42603919/79428157-b861e480-8000-11ea-932f-a398eabce2f8.PNG)
+
+
+##### JSTL.jar파일 받아오기
+
+<img src="https://user-images.githubusercontent.com/42603919/79428157-b861e480-8000-11ea-932f-a398eabce2f8.PNG" alt="캡처" style="zoom:80%;" />
 
 
 
@@ -720,11 +731,11 @@ public class UserServlet extends HttpServlet {
 
 
 
-### 사용자 리스트 출력(이름을 누르면 상세페이지 나오게끔 구현해보기)
+#### 사용자 리스트 출력(이름을 누르면 상세페이지 나오게끔 구현해보기)
 
+#### Servlet 분기 처리
 
-
-![캡처](https://user-images.githubusercontent.com/42603919/79522031-96ff0800-8095-11ea-9fbc-6791409318c0.PNG)
+<img src="https://user-images.githubusercontent.com/42603919/79522031-96ff0800-8095-11ea-9fbc-6791409318c0.PNG" alt="캡처" style="zoom:80%;" />
 
 ```jsp
 # index.jsp
@@ -760,6 +771,10 @@ public class UserServlet extends HttpServlet {
 ```
 
 
+
+- if 문을 통해 **userList** , **userDetail** 중 어느 것을 정보를 요청했는지 파악
+  - **userList**의 경우 **user List** 정보를 넘겨 주고, 화면에 **user id, user name** 이 출력된다.
+  - **userDetail**의 경우 **user name**을 클릭 할 경우, 해당되는 **user id** 값을 **Console** 에 출력해준다.
 
 ```java
 # UserServlet.java
@@ -816,8 +831,12 @@ public class UserServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("UserServlet doGet() method called!");
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
+        
+        
 		String cmd = request.getParameter("cmd"); //cmd라는 단어의 userDetail, userList가 온다. 분기처리 한다.
 		System.out.println(">>>>>>>command : " + cmd);
+        
+        
 		if(cmd.equals("userList")) {
 			userList(request, response);
 		}
@@ -1088,9 +1107,9 @@ public class UserDAO {
 
 
 
-### 사용자 등록해보기
+#### 사용자 등록해보기
 
-![캡처](https://user-images.githubusercontent.com/42603919/79522118-d4639580-8095-11ea-8db0-71135137a4c6.PNG)
+<img src="https://user-images.githubusercontent.com/42603919/79522118-d4639580-8095-11ea-8db0-71135137a4c6.PNG" alt="캡처" style="zoom:80%;" />
 
 
 
