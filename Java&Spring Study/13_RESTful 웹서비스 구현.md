@@ -1,6 +1,6 @@
 # RESTful 웹서비스 구현
 
-![캡처](https://user-images.githubusercontent.com/42603919/79725257-e9555880-8323-11ea-8700-88b78b72fc98.PNG)
+<img src="https://user-images.githubusercontent.com/42603919/79725257-e9555880-8323-11ea-8700-88b78b72fc98.PNG" alt="캡처" style="zoom: 67%;" />
 
 #### Spring MVC기반 RESTful 웹서비스 구현 절차
 
@@ -176,11 +176,11 @@
 
 4. 생성 완료
 
-   ![캡처](https://user-images.githubusercontent.com/42603919/79723199-4f3fe100-8320-11ea-9366-2b9488a79913.PNG)
+   <img src="https://user-images.githubusercontent.com/42603919/79723199-4f3fe100-8320-11ea-9366-2b9488a79913.PNG" alt="캡처" style="zoom:80%;" />
 
 
 
-![캡처](https://user-images.githubusercontent.com/42603919/79727857-fffdae80-8327-11ea-90cf-e761d7b40370.PNG)
+<img src="https://user-images.githubusercontent.com/42603919/79727857-fffdae80-8327-11ea-90cf-e761d7b40370.PNG" alt="캡처" style="zoom:80%;" />
 
 
 
@@ -267,19 +267,19 @@ public class RestUserController {
 
 #### Postman 사용하기(chromeapp으로 사용해보기)
 
-![get1](https://user-images.githubusercontent.com/42603919/79812603-67f9d680-83b4-11ea-9d99-1f85eb100e52.PNG)
+<img src="https://user-images.githubusercontent.com/42603919/79812603-67f9d680-83b4-11ea-9d99-1f85eb100e52.PNG" alt="get1" style="zoom: 80%;" />
 
 
 
-![get2](https://user-images.githubusercontent.com/42603919/79812607-692b0380-83b4-11ea-9a6c-ded5b43c74e3.PNG)
+<img src="https://user-images.githubusercontent.com/42603919/79812607-692b0380-83b4-11ea-9a6c-ded5b43c74e3.PNG" alt="get2" style="zoom:80%;" />
 
 
 
-![post1](https://user-images.githubusercontent.com/42603919/79812610-6a5c3080-83b4-11ea-87ab-4a5bbf79f124.PNG)
+<img src="https://user-images.githubusercontent.com/42603919/79812610-6a5c3080-83b4-11ea-87ab-4a5bbf79f124.PNG" alt="post1" style="zoom:80%;" />
 
 
 
-![post2](https://user-images.githubusercontent.com/42603919/79812612-6af4c700-83b4-11ea-8875-3bf8ae24ba8c.PNG)
+<img src="https://user-images.githubusercontent.com/42603919/79812612-6af4c700-83b4-11ea-8875-3bf8ae24ba8c.PNG" alt="post2" style="zoom:80%;" />
 
 
 
@@ -354,7 +354,7 @@ public class RestUserController {
 
 
 
-![캡처](https://user-images.githubusercontent.com/42603919/79812480-0afe2080-83b4-11ea-9003-fe32ffc3b851.PNG)
+<img src="https://user-images.githubusercontent.com/42603919/79812480-0afe2080-83b4-11ea-9003-fe32ffc3b851.PNG" alt="캡처" style="zoom:80%;" />
 
 
 
