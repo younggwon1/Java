@@ -2,7 +2,7 @@
 
 
 
-### 리뷰
+#### 리뷰
 
 - J2EE(Enterprise Edition) 기술
   
@@ -20,7 +20,7 @@
 
 
 
-### J2EE 기술중에서 Servlet, JSP(java server page, JSTL(java standard tag library))
+#### J2EE 기술중에서 Servlet, JSP(java server page, JSTL(java standard tag library))
 
 - Tomcat(web container라고 부른다.) 서버에서 동작한다.(서버가 필요하다.)
 
@@ -74,9 +74,9 @@
 
 ### [실습] Dynamic web project
 
-> ### **WebContent : jsp, html**
+> #### **WebContent : jsp, html**
 >
-> ### **src : java 클래스 종류**(DAO, VO, Servlet)
+> #### **src : java 클래스 종류**(DAO, VO, Servlet)
 
 
 
