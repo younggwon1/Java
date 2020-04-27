@@ -28,17 +28,17 @@
 
 - **@Controller** : 컨트롤러 클래스를 Bean으로 등록
 
-- **@RequestMapping** : request url을 controller에 정의하는 메서드 위에 선언, HTTP 요청 URL을 처리할 Controller 메소드 정의
+- **@RequestMapping** : request url을 controller에 정의하는 메서드 위에 선언, **HTTP 요청 URL을 처리할 Controller 메소드 정의**
 
   - ```
     @RequestMapping("/userList.do")
     ```
 
-  - HandlerMapping : 요청 url과 매핑되는 controller의 method명을 알고 있음
+  - **HandlerMapping** : 요청 url과 매핑되는 controller의 method명을 알고 있음
 
-- **@RequestParam** : request.getParameter()와 동일, query string 형태로 보낸 문자열의 값을
+- **@RequestParam** : 
 
-  ​								추출할 때 사용, HTTP 요청에 포함된 파라미터 참조 시 사용
+  - **query string 형태로 보낸 문자열의 값을 추출할 때 사용**, HTTP 요청에 포함된 파라미터 참조 시 사용
   
   - **request.getParameter()**와 동일하다.
   
@@ -50,11 +50,15 @@
 
 
 
-**ModelAndView**(viewName, modelName, modelObject)
+- **ModelAndView**(viewName, modelName, modelObject)
+  - Model 정보(DB로 부터 획득한 데이터 정보)와 View 정보(이동할 페이지의 .jsp 파일 정보)를 같이 담아서 넘기는 클래스
 
-**Model** : addAtribute(modelName, modelObject)
+- **Model**
+  - addAtribute(modelName, modelObject)와 동일
 
+---
 
+#### [실습]
 
 1. [Spring Web MVC](https://mvnrepository.com/artifact/org.springframework/spring-webmvc/5.2.5.RELEASE)
 
@@ -193,11 +197,11 @@
 
 4. 생성 완료
 
-   ![캡처](https://user-images.githubusercontent.com/42603919/79538386-371d5700-80bf-11ea-9965-5a8c5c378c34.PNG)
+   <img src="https://user-images.githubusercontent.com/42603919/79538386-371d5700-80bf-11ea-9965-5a8c5c378c34.PNG" alt="캡처" style="zoom:80%;" />
 
 
 
-### web.xml에 2가지 설정
+#### web.xml에 2가지 설정
 
 - Spring Beans Configuration XML 정보를 Tomcat에 알려줘야 함
 - FrontController 역할을 수행하는 DispatcherServlet 클래스를 설정
@@ -304,19 +308,19 @@
 
 
 
-### Tomcat 서버에 올리기
+#### Tomcat 서버에 올리기
 
-![캡처](https://user-images.githubusercontent.com/42603919/79539021-70a29200-80c0-11ea-9c7a-2c74bab1a2fc.PNG)
-
-
-
-###  Tomcat 서버 실행
-
-![캡처](https://user-images.githubusercontent.com/42603919/79539063-8ca63380-80c0-11ea-94f2-7ef7a9666ec8.PNG)
+<img src="https://user-images.githubusercontent.com/42603919/79539021-70a29200-80c0-11ea-9c7a-2c74bab1a2fc.PNG" alt="캡처" style="zoom:80%;" />
 
 
 
-### Maven jstl 가져오기(jar(x))
+#### Tomcat 서버 실행
+
+<img src="https://user-images.githubusercontent.com/42603919/79539063-8ca63380-80c0-11ea-94f2-7ef7a9666ec8.PNG" alt="캡처" style="zoom:80%;" />
+
+
+
+#### Maven jstl 가져오기(jar(x))
 
 1. [JSTL 1.2](https://mvnrepository.com/artifact/javax.servlet/jstl/1.2)
 
@@ -779,9 +783,7 @@ public class UserServlet extends HttpServlet {
 
 
 
-
-
-**insert.jsp -> Controller 과정 : **
+**insert.jsp -> Controller 과정 **
 
 - 등록된 form data를 추출해서 VO에 저장한다.(**@ModelAttribute**)
   - **@ModelAttribute** : HTTP 요청에 포함된 파라미터를 모델 객체로 바인딩
@@ -1065,7 +1067,7 @@ public class UserController {
                                 *.do는 처리를 못함.
 ```
 
-![캡처](https://user-images.githubusercontent.com/42603919/79713730-a71f1d80-8309-11ea-95f9-462eadc00482.PNG)
+<img src="https://user-images.githubusercontent.com/42603919/79713730-a71f1d80-8309-11ea-95f9-462eadc00482.PNG" alt="캡처" style="zoom:80%;" />
 
 
 
@@ -1113,7 +1115,7 @@ annotation-driven 태그가 JSON과 관련하여 내부적으로 처리하는 �
 
 #### 새로운 spring_beans_web.xml 생성하기
 
-![캡처](https://user-images.githubusercontent.com/42603919/79714152-e7cb6680-830a-11ea-9b62-a2df3696b3d4.PNG)
+<img src="https://user-images.githubusercontent.com/42603919/79714152-e7cb6680-830a-11ea-9b62-a2df3696b3d4.PNG" alt="캡처" style="zoom:80%;" />
 
 
 
@@ -1719,7 +1721,7 @@ public class UserController {
 
 
 
-#### JAXB(java api for xml binding) : 
+#### JAXB(java api for xml binding)
 
 - jdk1.8에는 포함되어 있었지만, jdk10부터는 포함되지 않음
 
