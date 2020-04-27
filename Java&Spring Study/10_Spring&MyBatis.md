@@ -276,9 +276,9 @@
 
 
 
-### JDBC Driver 준비
+#### JDBC Driver 준비
 
-![캡처](https://user-images.githubusercontent.com/42603919/79092396-bb07d400-7d8b-11ea-9315-d72eefe14942.PNG)
+<img src="https://user-images.githubusercontent.com/42603919/79092396-bb07d400-7d8b-11ea-9315-d72eefe14942.PNG" alt="캡처" style="zoom:80%;" />
 
 
 
