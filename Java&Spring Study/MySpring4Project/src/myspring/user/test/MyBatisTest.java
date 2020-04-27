@@ -57,7 +57,7 @@ public class MyBatisTest {
 		}
 	}
 	
-	@Test @Ignore
+	@Test //@Ignore
 	public void service() {
 		//¼ø¼­ : UserService -> UserDao -> SqlSession -> SqlSessionFactory -> DataSource
 		UserVO user = userService.getUser("gildong");
@@ -95,7 +95,7 @@ public class MyBatisTest {
 		System.out.println(SqlSessionFactory.getClass().getName());
 	}
 	
-	@Test //@Ignore
+	@Test @Ignore
 	public void con() { //connection test
 		try {
 			Connection con = dataSource.getConnection();

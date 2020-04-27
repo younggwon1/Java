@@ -3,11 +3,28 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans-4.3.xsd
-		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context-4.3.xsd">
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
 
+	<!-- @Aspect 지원 -->
+	<aop:aspectj-autoproxy />
 
-
+	<!-- AOP 설정 -->
+	<bean id="ptAdvice" class="myspring.aop.xml.PerformanceTraceAdvice"/>
+	<aop:config>
+		<aop:aspect ref="ptAdvice">
+			<aop:around method="trace" pointcut="execution(public * myspring.user..*(..))"/>
+<!-- 			<aop:around method="trace" pointcut="execution(public void myspring.user..*())"/> -->
+<!-- 			<aop:around method="trace" pointcut="execution(public * myspring.user..*User(..))"/> -->
+<!-- 			<aop:around method="trace" pointcut="execution(public * myspring.user..read*(..))"/> -->
+<!-- 			<aop:around method="trace" pointcut="execution(public * myspring.user.service..*(..))"/> -->
+<!-- 			<aop:around method="trace" pointcut="execution(public * myspring.user.dao..*(..))"/> -->			
+<!-- 			<aop:around method="trace" pointcut="execution(public void myspring.user..*(..))"/> -->
+<!-- 			<aop:around method="trace" pointcut="execution(private * myspring.user..*(..))"/> -->
+		</aop:aspect>
+	</aop:config>
 
 	<!-- UserMapper 설정 -->
 	<!-- MapperScannerConfigurer 설정 -->
@@ -74,7 +91,7 @@
 	
 	<!-- 상위 인터페이스로 설정 -->
 	<!-- Component Auto Scanning 설정 -->
-	<context:component-scan base-package="myspring.user">
+	<context:component-scan base-package="myspring.user,myspring.aop">
 		<!-- @Controller 어노테이션을 선언한 컴포넌트는 제외하겠다. -->
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 	</context:component-scan>
