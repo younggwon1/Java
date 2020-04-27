@@ -23,15 +23,15 @@
 
 ### [설정]
 
-![캡처](https://user-images.githubusercontent.com/42603919/79817391-58808a80-83c0-11ea-95a4-cc6a69b5135d.PNG)
+<img src="https://user-images.githubusercontent.com/42603919/79817391-58808a80-83c0-11ea-95a4-cc6a69b5135d.PNG" alt="캡처" style="zoom: 67%;" />
 
 
 
-![캡처](https://user-images.githubusercontent.com/42603919/79817509-98e00880-83c0-11ea-95cf-71d615eec301.PNG)
+<img src="https://user-images.githubusercontent.com/42603919/79817509-98e00880-83c0-11ea-95cf-71d615eec301.PNG" alt="캡처" style="zoom: 67%;" />
 
 
 
-![캡처2](https://user-images.githubusercontent.com/42603919/79817512-9a113580-83c0-11ea-99b6-e9d5abc7ecad.PNG)
+<img src="https://user-images.githubusercontent.com/42603919/79817512-9a113580-83c0-11ea-99b6-e9d5abc7ecad.PNG" alt="캡처2" style="zoom:67%;" />
 
 ### Generate 클릭
 
@@ -45,11 +45,11 @@
 
 **file -> open projects from file system**
 
-![캡처](https://user-images.githubusercontent.com/42603919/79818103-f1fc6c00-83c1-11ea-9257-a8592d515425.PNG)
+<img src="https://user-images.githubusercontent.com/42603919/79818103-f1fc6c00-83c1-11ea-9257-a8592d515425.PNG" alt="캡처" style="zoom: 67%;" />
 
 
 
-![캡처](https://user-images.githubusercontent.com/42603919/79818705-6b488e80-83c3-11ea-994c-d0d1562cbcd5.PNG)
+<img src="https://user-images.githubusercontent.com/42603919/79818705-6b488e80-83c3-11ea-994c-d0d1562cbcd5.PNG" alt="캡처" style="zoom:80%;" />
 
 
 
@@ -105,8 +105,8 @@ server.port=8085
 **@SpringBootApplication** 는 아래의 3가지 어노테이션을 합친 것이다 
 
 - **@SpringBootConfiguration + @EnableAutoConfiguration + @ComponentScan**
-  - **1단계 : @ComponentScan** : project 생성시 정해준 default 팩키지 부터 scanning을 한다. 스프링 빈을 나타내는 어노테이션을 @ComponentScan이 붙은 클래스가 위치해 있는 현재 패키지를 기준 으로 그 아래 패키지까지 찾아내서 스프링 빈으로 등록하는 기능을 가진 어노테이션입니다.
-  - **2단계 : @EnableAutoConfiguration** : 스프링 프레임워크에서 많이 쓰이는 스프링 bean 들을 자동적으로 컨테이너에 등록하는 역할을 하는 어노테이션입니다. 
+  - **1단계 : @ComponentScan** : **project 생성시 정해준 default 팩키지 부터 scanning을 한다.** 스프링 빈을 나타내는 어노테이션을 @ComponentScan이 붙은 클래스가 위치해 있는 현재 패키지를 기준 으로 그 아래 패키지까지 찾아내서 스프링 빈으로 등록하는 기능을 가진 어노테이션입니다.
+  - **2단계 : @EnableAutoConfiguration** : **스프링 프레임워크에서 많이 쓰이는 스프링 bean 들을 자동적으로 컨테이너에 등록하는 역할**을 하는 어노테이션입니다. 
 
 - **xml 설정은 없다. => configuration class를 이미 만들어 제공하기 때문이다. 그 목록이 spring.factories에 있다.**
 
@@ -120,7 +120,7 @@ server.port=8085
 
 ### [실습]
 
-![캡처](https://user-images.githubusercontent.com/42603919/79829461-1c5c2280-83de-11ea-9984-6af6c4a2a133.PNG)
+<img src="https://user-images.githubusercontent.com/42603919/79829461-1c5c2280-83de-11ea-9984-6af6c4a2a133.PNG" alt="캡처" style="zoom:80%;" />
 
 ```html
 # index.html
@@ -172,7 +172,7 @@ public class MyspringbootApplication {
 
 
 
-### 서버를 재시작해서 실행한다.
+#### 서버를 재시작해서 실행한다.
 
 
 
@@ -184,7 +184,7 @@ public class MyspringbootApplication {
 
 
 
-#### jar 파일 만들어보자
+#### jar 파일 생성하기
 
 1. pom.xml에 jar 추가
 
@@ -242,9 +242,9 @@ public class MyspringbootApplication {
 
 2. Spring Boot 프로젝트를 jar 파일로 생성하기 :  Run As -> Maven Build -> Goals : package -> Run
 
-   ![캡처](https://user-images.githubusercontent.com/42603919/79831716-e79e9a00-83e2-11ea-86be-beeb388eeb80.PNG)
+   <img src="https://user-images.githubusercontent.com/42603919/79831716-e79e9a00-83e2-11ea-86be-beeb388eeb80.PNG" alt="캡처" style="zoom:67%;" />
 
-![캡처](https://user-images.githubusercontent.com/42603919/79831884-3fd59c00-83e3-11ea-8d98-1797ac8a50a6.PNG)
+<img src="https://user-images.githubusercontent.com/42603919/79831884-3fd59c00-83e3-11ea-8d98-1797ac8a50a6.PNG" alt="캡처" style="zoom:80%;" />
 
 
 
@@ -252,11 +252,11 @@ public class MyspringbootApplication {
 
 **Terminal 창 만들기**
 
-![캡처](https://user-images.githubusercontent.com/42603919/79832089-9f33ac00-83e3-11ea-9d70-6cc18ccea67f.PNG)
+<img src="https://user-images.githubusercontent.com/42603919/79832089-9f33ac00-83e3-11ea-9d70-6cc18ccea67f.PNG" alt="캡처" style="zoom:80%;" />
 
 ![캡처](https://user-images.githubusercontent.com/42603919/79832201-e28e1a80-83e3-11ea-912c-270d248d42c0.PNG)
 
-![캡처](https://user-images.githubusercontent.com/42603919/79832224-f043a000-83e3-11ea-8c47-9e3ac61797ee.PNG)
+<img src="https://user-images.githubusercontent.com/42603919/79832224-f043a000-83e3-11ea-8c47-9e3ac61797ee.PNG" alt="캡처" style="zoom:80%;" />
 
 ```
 C:\Users\sku66\java\myspringboot\target>java -jar myspringboot-0.0.1-SNAPSHOT.jar
@@ -264,7 +264,9 @@ C:\Users\sku66\java\myspringboot\target>java -jar myspringboot-0.0.1-SNAPSHOT.ja
 
 ![캡처](https://user-images.githubusercontent.com/42603919/79829352-cb4c2e80-83dd-11ea-843a-f6559fc23f26.PNG)
 
-### 동일하게 웹 페이지에 출력된다.
+
+
+#### 동일하게 웹 페이지에 출력된다.
 
 
 
@@ -408,7 +410,8 @@ C:\Users\sku66\java\myspringboot\target>java -jar myspringboot-0.0.1-SNAPSHOT.ja
   }
   ```
 
-  
+
+- **ApplicationStartingEvent는 컨테이너 생성되기 전에 생성되기 때문에 SpringApplication에 Listener를 추가해야 한다.**
 
 ---
 
@@ -418,7 +421,7 @@ C:\Users\sku66\java\myspringboot\target>java -jar myspringboot-0.0.1-SNAPSHOT.ja
 
 > SpringApplication 실행된 후에 arguments 값을 받거나, 무엇인가를 실행하고 싶을 때 ApplicationRunner 인터페이스를 구현하는 Runner 클래스를 작성한다.
 
-![캡처](https://user-images.githubusercontent.com/42603919/79837413-53d1cb80-83ec-11ea-9cf6-88c1590ca1e1.PNG)
+<img src="https://user-images.githubusercontent.com/42603919/79837413-53d1cb80-83ec-11ea-9cf6-88c1590ca1e1.PNG" alt="캡처" style="zoom: 67%;" />
 
 ```java
 # MyRunner.java
@@ -1090,7 +1093,7 @@ DataSource Class Name : com.zaxxer.hikari.HikariDataSource
 
 
 
-![캡처](https://user-images.githubusercontent.com/42603919/79940244-1f1d4d00-849c-11ea-8d0b-18111672af63.PNG)
+<img src="https://user-images.githubusercontent.com/42603919/79940244-1f1d4d00-849c-11ea-8d0b-18111672af63.PNG" alt="캡처" style="zoom:80%;" />
 
 
 
@@ -1210,13 +1213,13 @@ public class DatabaseRunner implements ApplicationRunner{
 1. **root password - mysql**
 2. **utf-8 check**
 
-![캡처](https://user-images.githubusercontent.com/42603919/79942714-6d354f00-84a2-11ea-9f67-fd5591f086ce.PNG)
+<img src="https://user-images.githubusercontent.com/42603919/79942714-6d354f00-84a2-11ea-9f67-fd5591f086ce.PNG" alt="캡처" style="zoom:80%;" />
 
 
 
 #### mysql client 접속하기
 
-![캡처](https://user-images.githubusercontent.com/42603919/79942787-98b83980-84a2-11ea-9576-54580b770b2a.PNG)
+<img src="https://user-images.githubusercontent.com/42603919/79942787-98b83980-84a2-11ea-9576-54580b770b2a.PNG" alt="캡처" style="zoom:80%;" />
 
 
 
@@ -1494,7 +1497,7 @@ public class Account {
 
 
 
-![캡처](https://user-images.githubusercontent.com/42603919/79947736-6e1fae00-84ad-11ea-8823-61b2aa562d48.PNG)
+<img src="https://user-images.githubusercontent.com/42603919/79947736-6e1fae00-84ad-11ea-8823-61b2aa562d48.PNG" alt="캡처" style="zoom:80%;" />
 
 
 
@@ -2399,6 +2402,6 @@ public class Account {
 
 
 
-![캡처](https://user-images.githubusercontent.com/42603919/80165193-e608e800-8615-11ea-98bf-6d7d7c693c8f.PNG)
+<img src="https://user-images.githubusercontent.com/42603919/80165193-e608e800-8615-11ea-98bf-6d7d7c693c8f.PNG" alt="캡처" style="zoom:80%;" />
 
 **--> email 컬럼이 추가된 것을 확인할 수 있다.**
