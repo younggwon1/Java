@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 
@@ -15,7 +16,14 @@ public class User implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
-	@Id @GeneratedValue
+	/*
+	 * 1. Auto(default) : JPA 구현체가 자동으로 생성 전략을 결정한다.
+	 * 2. IDENTITY : 기본키 생성을 DB에 위임한다. 
+	 * 				  예를 들어 MySql의 경우 AUTO_INCREMENT를 사용해서 기본키를 생성한다.
+	 * 3. SEQUENCE : DB의 특별한 Sequence 오브젝트를 사용해서 기본키를 생성한다. 
+	 * 4. TABLE : Key를 생성하는 생성 전용 테이블을 하나 만들고 이를 사용해서 기본키를 생성한다.
+	 * */
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@JacksonXmlProperty(isAttribute = true)
 	private Long id;
 	

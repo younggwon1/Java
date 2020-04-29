@@ -8,21 +8,46 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.dudrnjs.myspringboot.entity.Account;
 import com.dudrnjs.myspringboot.entity.User;
 import com.dudrnjs.myspringboot.exception.CustomException;
 import com.dudrnjs.myspringboot.exception.ResourceNotFoundException;
 import com.dudrnjs.myspringboot.repository.UserRepository;
+import com.dudrnjs.myspringboot.service.AccountService;
 
 @Controller
 public class UserController {
 
 	@Autowired
 	private UserRepository userRepository;
-
+	
+	@Autowired
+	private AccountService accountService;
+	
+	
+	@GetMapping("/accountForm")
+	public String accountForm(Account account) {
+		return "add-account";
+	}
+	
+	@PostMapping("/addAccount")
+	public String addAccount(@ModelAttribute Account account) {
+		Account addAccount = accountService.createAccount(account.getUsername(), account.getPassword());
+		System.out.println(">>>>>.등록된 Account : " + addAccount);
+		return "redirect:/index.html";
+	}
+	
+	
+	@GetMapping("/mypage")
+	public String mypage() {
+		return "mypage";
+	}
+	
 	@ExceptionHandler(Exception.class)
 	public ModelAndView handleException(Exception ex) {
 		return new ModelAndView("error/generic_error", "errMsg", ex.getMessage());
