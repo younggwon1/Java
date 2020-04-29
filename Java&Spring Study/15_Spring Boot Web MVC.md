@@ -2227,7 +2227,7 @@ public class UserRestController {
 - 새로운 스프링 부트 프로젝트를 생성한다. (SecondBootProject)
 - Web Dependency를 추가한다.
 - server.port=8090 으로 설정한다.
-- @EnableAdminServer 어노테이션 선언
+- **@EnableAdminServer** 어노테이션 선언
 - spring-boot-admin-starter-server dependency 추가한다
 
 ##### Spring-Boot Admin 의존성 추가
@@ -2261,3 +2261,690 @@ server.port=8090
     ```
 
 ![캡처](https://user-images.githubusercontent.com/42603919/80438591-7f4e3c00-893f-11ea-9ca2-e9e9f18b98a7.PNG)
+
+---
+
+#### 참고
+
+##### @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+- Auto(default) : JPA 구현체가 자동으로 생성 전략을 결정한다.
+- IDENTITY : 기본키 생성을 DB에 위임한다. 예를 들어 MySql의 경우 AUTO_INCREMENT를 사용해서 기본키를 생성한다.
+- SEQUENCE : DB의 특별한 Sequence 오브젝트를 사용해서 기본키를 생성한다.
+- TABLE : Key를 생성하는 생성 전용 테이블을 하나 만들고 이를 사용해서 기본키를 생성한다.
+
+---
+
+
+
+#### Spring Security
+
+[spring-security-docs-manual 5.3.1.RELEASE API](https://docs.spring.io/spring-security/site/docs/current/api/)
+
+- 웹 시큐리티, 메서드 시큐리티
+- 다양한 인증 방법 지원
+  - Basic 인증, Form 인증, OAuth, LDAP 
+
+- 스프링 부트 시큐리티 자동 설정
+  - SecurityAutoConfiguration
+  - UserDetailsServiceAutoConfiguration
+  - 모든 요청에 인증이 필요함.
+  - 기본 사용자를 자동으로 생성해준다. 
+    - Username : user 
+    - Password : 애플리케이션을 실행할 때 마다 랜덤 값 생성 (콘솔에 출력됨)
+
+
+
+##### Spring boot security 의존성 추가
+
+```xml
+# pom.xml
+
+<dependency>
+ 	<groupId>org.springframework.boot</groupId>
+ 	<artifactId>spring-boot-starter-security</artifactId>
+</dependency>
+```
+
+
+
+**JSESSIONID**의 값이 있는지 없는지에 따라 로그인 처리를 한다. 
+
+**JSESSIONID**이 있으면 계속 로그인을 유지한다.
+
+![캡처](https://user-images.githubusercontent.com/42603919/80552876-f7316a80-8a02-11ea-92f1-42882ea59400.PNG)
+
+
+
+
+
+####  Spring Security : Basic 인증 구현
+
+- TemplateController 클래스에 메서드 추가
+
+- static/index.html에 링크 추가
+- templates/mypage.html 작성
+
+
+
+```html
+# index.html
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h2>Welcome 스프링부트!!</h2>
+	<a href="leaf">타임리프 페이지 보기</a>
+	<h4><a href="index">사용자 관리</a></h4>
+	<h4><a href="/mypage">MyPage</a></h4>	
+</body>
+</html>
+```
+
+
+
+```java
+# UserController.java
+
+@GetMapping("/mypage")
+public String mypage() {
+	return "mypage";
+}
+```
+
+
+
+```html
+# mypage.html
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h2>마이 페이지</h2>
+	<div>
+		로그인한 UserName : [[${#httpServletRequest.remoteUser}]] <br/>
+		<form th:action="@{/app-logout}" method="post">
+			<input type="submit" value="로그아웃"/>
+		</form>
+	</div>
+</body>
+</html>
+```
+
+
+
+<img src="https://user-images.githubusercontent.com/42603919/80553683-b7b84d80-8a05-11ea-85c5-35f09153b970.PNG" alt="캡처" style="zoom:67%;" />
+
+
+
+<img src="https://user-images.githubusercontent.com/42603919/80553696-c1da4c00-8a05-11ea-9ab9-4131a2725a2b.PNG" alt="캡처" style="zoom:67%;" />
+
+
+
+####  Spring Security : Security 설정 커스터 마이징
+
+/mypage/** 에는 인증을 걸겠다. -> MyPage를 클릭할 때만 로그인 창이 뜬다.
+
+```java
+# SecurityConfig.java
+
+package com.dudrnjs.myspringboot.config;
+
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+
+@Configuration
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		http.authorizeRequests() //접근을 제한하겠다.
+			.antMatchers("/mypage/**").authenticated() // /mypage/**는 인증을 걸겠다.
+			.antMatchers("/**").permitAll() //나머지 페이지는 인증을 걸지 않겠다.
+			.and()
+			.formLogin()
+			.and()
+			.httpBasic()
+		    .and()
+		    .logout()
+		    .logoutUrl("/app-logout")
+		    .deleteCookies("JSESSIONID")
+		    .logoutSuccessUrl("/");
+	}
+
+}
+```
+
+
+
+1. MyPage 클릭
+
+   <img src="https://user-images.githubusercontent.com/42603919/80553683-b7b84d80-8a05-11ea-85c5-35f09153b970.PNG" alt="캡처" style="zoom:67%;" />
+
+2. 로그인 하기
+
+   <img src="https://user-images.githubusercontent.com/42603919/80554544-7e351180-8a08-11ea-9eea-0098974f5dc0.PNG" alt="캡처" style="zoom:67%;" />
+
+3. 로그인 완료
+
+<img src="https://user-images.githubusercontent.com/42603919/80554546-7ecda800-8a08-11ea-8b3c-12ccdca39b83.PNG" alt="1" style="zoom:67%;" />
+
+4. 로그아웃을 하면 쿠키가 사라져 다시 MyPage 클릭할 때 다시 로그인을 해야한다.
+
+
+
+#### User를 생성하는 Account 추가
+
+##### AccountService 클래스 작성
+
+![캡처](https://user-images.githubusercontent.com/42603919/80555572-99ede700-8a0b-11ea-83f4-0ff61cd96ba0.PNG)
+
+```java
+# AccountService.java
+
+package com.dudrnjs.myspringboot.service;
+
+import java.util.Optional;
+
+import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.dudrnjs.myspringboot.entity.Account;
+import com.dudrnjs.myspringboot.repository.AccountRepository;
+
+@Service
+public class AccountService {
+	@Autowired
+	private AccountRepository accountRepository;
+	
+	public Account createAccount(String username, String password) {
+		Account account = new Account();
+		account.setUsername(username);
+		account.setPassword(password);
+		return accountRepository.save(account);
+	}
+	
+	// AccountService 클래스가 Bean으로 생성된 후에 바로 init() 메서드가 호출된다.
+	@PostConstruct
+	public void init() {
+		Optional<Account> findByUsername = accountRepository.findByUsername("test");
+		// 해당 user가 없으면
+		if(!findByUsername.isPresent()) {
+			Account createAccount = this.createAccount("test", "1234");
+			System.out.println(createAccount);
+		}
+	}
+}
+```
+
+
+
+```mysql
+MariaDB [(none)]> use spring_db;
+Database changed
+MariaDB [spring_db]> select * from account;
+Empty set (0.000 sec)
+
+MariaDB [spring_db]> select * from account;
++----+-------+----------+----------+
+| id | email | password | username |
++----+-------+----------+----------+
+|  1 | NULL  | 1234     | test     |
++----+-------+----------+----------+
+1 row in set (0.000 sec)
+```
+
+
+
+#### 아이디 : test, 비밀번호 : 1234 로그인 해보기
+
+```java
+# AccountService.java
+
+package com.dudrnjs.myspringboot.service;
+
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Optional;
+
+import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+
+import com.dudrnjs.myspringboot.entity.Account;
+import com.dudrnjs.myspringboot.repository.AccountRepository;
+
+@Service
+public class AccountService implements UserDetailsService{
+	@Autowired
+	private AccountRepository accountRepository;
+	
+	
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		Optional<Account> findByUsername = accountRepository.findByUsername(username);
+		Account account = findByUsername.orElseThrow(() -> new UsernameNotFoundException(username));
+		return new User(account.getUsername(), account.getPassword(), authorities());
+	}
+	
+	private Collection<? extends GrantedAuthority> authorities() {
+		return Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
+	}
+
+	public Account createAccount(String username, String password) {
+		Account account = new Account();
+		account.setUsername(username);
+		account.setPassword(password);
+		return accountRepository.save(account);
+	}
+	
+	// AccountService 클래스가 Bean으로 생성된 후에 바로 init() 메서드가 호출된다.
+	@PostConstruct
+	public void init() {
+		Optional<Account> findByUsername = accountRepository.findByUsername("test");
+		// 해당 user가 없으면
+		if(!findByUsername.isPresent()) {
+			Account createAccount = this.createAccount("test", "1234");
+			System.out.println(createAccount);
+		}
+	}
+}
+
+```
+
+<img src="https://user-images.githubusercontent.com/42603919/80561075-391bda00-8a1e-11ea-82e7-02502b2d3774.PNG" alt="캡처" style="zoom:67%;" />
+
+
+
+<img src="https://user-images.githubusercontent.com/42603919/80561076-3a4d0700-8a1e-11ea-96d6-c03d74fcb182.PNG" alt="1" style="zoom:67%;" />
+
+- Account에 등록된 username와 password로 로그인 한다.
+- **Password를 인코딩 하지 않아서 IllegalArgumentException 발생함**
+
+- **-->>시스템 에러가 발생한다. 이를 해결해보자!!**
+
+
+
+####  SecurityConfig 클래스에 PasswordEncoder를 Bean으로 등록
+
+```java
+# SecurityConfig.java
+
+package com.dudrnjs.myspringboot.config;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+@Configuration
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		http.authorizeRequests() //접근을 제한하겠다.
+			.antMatchers("/mypage/**").authenticated() // /mypage/**는 인증을 걸겠다.
+			.antMatchers("/**").permitAll() //나머지 페이지는 인증을 걸지 않겠다.
+			.and()
+			.formLogin()
+			.and()
+			.httpBasic()
+		    .and()
+		    .logout()
+		    .logoutUrl("/app-logout")
+		    .deleteCookies("JSESSIONID")
+		    .logoutSuccessUrl("/");
+	}
+	
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+	}
+
+}
+```
+
+
+
+```java
+# AccountService.java
+
+package com.dudrnjs.myspringboot.service;
+
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Optional;
+
+import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import com.dudrnjs.myspringboot.entity.Account;
+import com.dudrnjs.myspringboot.repository.AccountRepository;
+
+@Service
+public class AccountService implements UserDetailsService{
+	@Autowired
+	private AccountRepository accountRepository;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
+	
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		Optional<Account> findByUsername = accountRepository.findByUsername(username);
+		Account account = findByUsername.orElseThrow(() -> new UsernameNotFoundException(username));
+		return new User(account.getUsername(), account.getPassword(), authorities());
+	}
+	
+	private Collection<? extends GrantedAuthority> authorities() {
+		return Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
+	}
+
+	public Account createAccount(String username, String password) {
+		Account account = new Account();
+		account.setUsername(username);
+		//account.setPassword(password);
+		account.setPassword(passwordEncoder.encode(password));
+		return accountRepository.save(account);
+	}
+	
+	// AccountService 클래스가 Bean으로 생성된 후에 바로 init() 메서드가 호출된다.
+	@PostConstruct
+	public void init() {
+		Optional<Account> findByUsername = accountRepository.findByUsername("test");
+		// 해당 user가 없으면
+		if(!findByUsername.isPresent()) {
+			Account createAccount = this.createAccount("test", "1234");
+			System.out.println(createAccount);
+		}
+	}
+}
+```
+
+
+
+```mysql
+MariaDB [spring_db]> select * from account;
++----+-------+----------+----------+
+| id | email | password | username |
++----+-------+----------+----------+
+|  1 | NULL  | 1234     | test     |
++----+-------+----------+----------+
+
+MariaDB [spring_db]> delete from account;
+Query OK, 1 row affected (0.007 sec)
+
+MariaDB [spring_db]> commit;
+Query OK, 0 rows affected (0.000 sec)
+
+MariaDB [spring_db]> select * from account;
+Empty set (0.001 sec)
+```
+
+![캡처](https://user-images.githubusercontent.com/42603919/80561677-30c49e80-8a20-11ea-8f81-7545ae634c30.PNG)
+
+**비밀번호가 1234였던 것이 바뀌어 저장된다. 패스워드가 노출되면 안되기 때문에**
+
+
+
+#### 아이디와 비밀번호를 새로 등록해서 로그인해보기
+
+```html
+# index.html
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h2>Welcome 스프링부트!!</h2>
+	<a href="leaf">타임리프 페이지 보기</a>
+	<h4><a href="index">사용자 관리</a></h4>
+	<h4><a href="/mypage">MyPage</a></h4>
+	<h4><a href="/accountForm">Account 추가</a></h4>	
+</body>
+</html>
+```
+
+
+
+```java
+# AccountService.java
+
+package com.dudrnjs.myspringboot.service;
+
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Optional;
+
+import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import com.dudrnjs.myspringboot.entity.Account;
+import com.dudrnjs.myspringboot.repository.AccountRepository;
+
+@Service
+public class AccountService implements UserDetailsService{
+	@Autowired
+	private AccountRepository accountRepository;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
+	
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		Optional<Account> findByUsername = accountRepository.findByUsername(username);
+		Account account = findByUsername.orElseThrow(() -> new UsernameNotFoundException(username));
+		return new User(account.getUsername(), account.getPassword(), authorities());
+	}
+	
+	private Collection<? extends GrantedAuthority> authorities() {
+		return Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
+	}
+
+	public Account createAccount(String username, String password) {
+		Account account = new Account();
+		account.setUsername(username);
+		//account.setPassword(password);
+		account.setPassword(passwordEncoder.encode(password));
+		return accountRepository.save(account);
+	}
+		
+}
+```
+
+
+
+```java
+# UserController.java
+
+package com.dudrnjs.myspringboot.controller;
+
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.dudrnjs.myspringboot.entity.Account;
+import com.dudrnjs.myspringboot.entity.User;
+import com.dudrnjs.myspringboot.exception.CustomException;
+import com.dudrnjs.myspringboot.exception.ResourceNotFoundException;
+import com.dudrnjs.myspringboot.repository.UserRepository;
+import com.dudrnjs.myspringboot.service.AccountService;
+
+@Controller
+public class UserController {
+
+	@Autowired
+	private UserRepository userRepository;
+	
+	@Autowired
+	private AccountService accountService;
+	
+	
+	@GetMapping("/accountForm")
+	public String accountForm(Account account) {
+		return "add-account";
+	}
+	
+	@PostMapping("/addAccount")
+	public String addAccount(@ModelAttribute Account account) {
+		Account addAccount = accountService.createAccount(account.getUsername(), account.getPassword());
+		System.out.println(">>>>>.등록된 Account : " + addAccount);
+		return "redirect:/index.html";
+	}
+	
+	
+	@GetMapping("/mypage")
+	public String mypage() {
+		return "mypage";
+	}
+	
+	@ExceptionHandler(Exception.class)
+	public ModelAndView handleException(Exception ex) {
+		return new ModelAndView("error/generic_error", "errMsg", ex.getMessage());
+		
+	}
+	
+	@ExceptionHandler(CustomException.class)
+	public ModelAndView handleCustomException(CustomException ex) {
+		ModelAndView model = new ModelAndView("error/generic_error");
+		model.addObject("errCode", ex.getErrCode());
+		model.addObject("errMsg",ex.getErrMsg());
+		return model;
+	}
+	
+	@GetMapping("/delete/{id}")
+	public String deleteUser(@PathVariable("id") long id) {
+//		User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
+		User user = userRepository.findById(id).orElseThrow(() -> new CustomException("E001", String.format("해당 User ID : %s 가 존재하지 않습니다.", id)));
+		userRepository.delete(user);
+		return "redirect:/index";
+	}
+	
+	
+	@PostMapping("/edituser/{id}")
+	public String updateUser(@PathVariable("id") long id, @Valid User user, BindingResult result) {
+		if (result.hasErrors()) {
+			user.setId(id);//update-user로 돌아가기 위해서 id를 받아야한다.
+			return "update-user";
+		}
+		userRepository.save(user);
+		return "redirect:/index";
+	}
+	
+
+	@GetMapping("/edit/{id}")
+	public ModelAndView showUpdateForm(@PathVariable long id) {
+		User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
+		return new ModelAndView("update-user", "user", user);
+	}
+
+	@PostMapping("/adduser")
+	public String addUser(@Valid User user, BindingResult result) {
+		if (result.hasErrors()) {
+			return "add-user";
+		}
+		userRepository.save(user);
+		return "redirect:/index";
+	}
+
+	@GetMapping("/signup")
+	public String showSignupForm(User user) {
+		return "add-user";
+	}
+
+	@GetMapping("/index")
+	public String index(Model model) {
+		model.addAttribute("users", userRepository.findAll());
+		return "index";
+	}
+
+	@GetMapping("/leaf")
+	public ModelAndView leaf() {
+		return new ModelAndView("leaf", "name", "타임리프");
+	}
+}
+```
+
+
+
+```html
+# add-account.html
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h2>Account 등록</h2>
+	<form th:action="@{/addAccount}" method="post" th:object="${account}">
+		<label>UserName : </label>
+		<input type="text" th:field="*{username}"> <br/>
+		<label>Password : </label>
+		<input type="password" th:field="*{password}"> <br/>
+		<input type="submit" value="Add Account">
+	</form>
+</body>
+</html>
+```
+
+
+
+<img src="https://user-images.githubusercontent.com/42603919/80578571-a0985080-8a43-11ea-9b8b-bc441a053c40.PNG" alt="캡처" style="zoom: 67%;" />
+
+<img src="https://user-images.githubusercontent.com/42603919/80578572-a130e700-8a43-11ea-9bfb-9f2366b2c4cf.PNG" alt="1" style="zoom:67%;" />
+
+<img src="https://user-images.githubusercontent.com/42603919/80578573-a1c97d80-8a43-11ea-917d-44f77bc2fe02.PNG" alt="2" style="zoom:67%;" />
+
+<img src="https://user-images.githubusercontent.com/42603919/80578578-a1c97d80-8a43-11ea-8088-a47197ee8920.PNG" alt="3" style="zoom:67%;" />
