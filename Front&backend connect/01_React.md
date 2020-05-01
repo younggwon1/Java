@@ -97,7 +97,6 @@ class App extends Component {
   render() {
     return (
       <React.Fragment>
-        <MyComponent name="React"/>
         <MyComponent />
       </React.Fragment>
     );
@@ -131,7 +130,7 @@ MyComponent.defaultProps = {
 export default MyComponent;
 ```
 
-![캡처](https://user-images.githubusercontent.com/42603919/80782920-f3444a80-8bb2-11ea-94ed-aae361422db1.PNG)
+![캡처](https://user-images.githubusercontent.com/42603919/80811448-e5b5b180-8c00-11ea-937e-a7db275d08ec.PNG)
 
 
 
@@ -151,8 +150,6 @@ class App extends Component {
   render() {
     return (
       <React.Fragment>
-        <MyComponent name="React"/>
-        <MyComponent />
         <MyComponent name={300}/>
       </React.Fragment>
     );
@@ -181,9 +178,6 @@ class MyComponent extends Component {
     }
 }
 
-MyComponent.defaultProps = {
-    name:'리액트'
-};
 
 MyComponent.propTypes = {
     name:propTypes.string
@@ -191,7 +185,7 @@ MyComponent.propTypes = {
 export default MyComponent;
 ```
 
-![캡처](https://user-images.githubusercontent.com/42603919/80783114-972df600-8bb3-11ea-9235-46c4073837ee.PNG)
+![캡처](https://user-images.githubusercontent.com/42603919/80811605-31685b00-8c01-11ea-94d4-d04e000affa2.PNG)
 
 
 
