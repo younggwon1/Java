@@ -451,12 +451,6 @@ public class UserController {
     @GetMapping("/users")
     public List<User> getUserList() {
         List<User> list = service.getUserList();
-
-        //list의 내용 출력
-//        for (User user : list) {
-//            System.out.println(user);
-//            log.info(user.toString());
-//        }
         return list;
     }
 
@@ -467,11 +461,6 @@ public class UserController {
         return user;
     }
 
-    // 관리자 입장에서 개별 목록 요청
-//    @GetMapping("/admin/users/{id}")
-//    public User getUserByAdmin() {
-//
-//    }
 }
 ```
 
@@ -737,3 +726,4 @@ public class User {
 
 
 ![image](https://user-images.githubusercontent.com/42603919/81157071-92a57b00-8fc1-11ea-8eb5-400dfb9d3ca7.png)
+
