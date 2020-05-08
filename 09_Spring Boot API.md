@@ -103,6 +103,12 @@ REST API의 URL 변경시 단점을 해결 할 수 있다.
 
 #### [실습]
 
+```
+# IUserService.java
+```
+
+
+
 **개별 데이터 출력(Filter를 적용하면서 HATEOAS 적용해보기)**
 
 ```java
@@ -176,6 +182,175 @@ REST API의 URL 변경시 단점을 해결 할 수 있다.
 ```
 
 <img src="https://user-images.githubusercontent.com/42603919/81245945-473aad80-9051-11ea-805c-f96fe2431391.png" alt="image" style="zoom:80%;" />
+
+
+
+---
+
+##### 참고
+
+```
+implement (class -> interface)
+
+extends (class -> class)
+
+extends (interface -> interface)
+```
+
+---
+
+
+
+##### 사용자 데이터 생성
+
+```java
+# UserController.java  
+  
+  @PostMapping("/users")
+    public ResponseEntity<User> createUser(@Valid @RequestBody User user) {
+        User createUser = service.createUser(user);
+
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("{id}")
+                .buildAndExpand(createUser.getId())
+                .toUri();
+        return ResponseEntity.created(location).build();
+    }
+```
+
+
+
+```java
+# UserDaoService.java
+
+    //사용자 생성
+    @Override
+    public User createUser(User newUser) {
+        if(newUser.getId() == null) {
+            newUser.setId(users.get(users.size() -1).getId()+1); //id 증가하는 코드 -> db를 사용한다면 자동으로 증가할 것
+        }
+
+        users.add(newUser);
+
+        return newUser;
+    }
+```
+
+
+
+##### 사용자 데이터 수정
+
+```java
+# UserController.java 
+
+    @PutMapping("/users/{id}")
+    public MappingJacksonValue modifyUser(@PathVariable Integer id, @RequestBody User modifyuser) {
+
+        modifyuser.setId(id);
+        User modifyUser = service.modifyUser(modifyuser);
+
+        if(modifyUser == null) {
+            throw new UserNotFoundException("id-" + id);
+        }
+
+        EntityModel<User> model = new EntityModel<>(modifyuser);
+        WebMvcLinkBuilder linkTO = linkTo(methodOn(this.getClass()).getUserList());
+
+        model.add(linkTO.withRel("all-users"));
+
+        SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.filterOutAllExcept("id", "name", "joinDate", "ssn");
+        FilterProvider provider = new SimpleFilterProvider().addFilter("UserInfo", filter);
+        MappingJacksonValue mapping = new MappingJacksonValue(model);
+        mapping.setFilters(provider);
+
+        return mapping;
+
+    }
+```
+
+
+
+```java
+# UserDaoService.java
+
+    //사용자 수정
+    @Override
+    public User modifyUser(User modifyUser) {
+        Iterator<User> itUsers = users.iterator();
+
+        while (itUsers.hasNext()) {
+            User user = itUsers.next();
+
+            if(user.getId() == modifyUser.getId()) {
+                user.setName(modifyUser.getName());
+                user.setJoinDate(modifyUser.getJoinDate());
+                user.setPassword(modifyUser.getPassword());
+                user.setSsn(modifyUser.getSsn());
+
+                return user;
+            }
+        }
+        return null;
+    }
+```
+
+
+
+
+
+##### 사용자 데이터 삭제
+
+```java
+# UserController.java 
+
+    @DeleteMapping("/users/{id}")
+    public MappingJacksonValue removeUser(@PathVariable Integer id) {
+        User user = service.removeUser(id);
+
+        EntityModel<User> model = new EntityModel<>(user);
+        WebMvcLinkBuilder linkTO = linkTo(methodOn(this.getClass()).getUserList());
+
+        model.add(linkTO.withRel("all-users"));
+
+        SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.filterOutAllExcept("id", "name", "joinDate", "ssn");
+        FilterProvider provider = new SimpleFilterProvider().addFilter("UserInfo", filter);
+
+        MappingJacksonValue mapping = new MappingJacksonValue(model);
+        mapping.setFilters(provider);
+
+        return mapping;
+
+    }
+```
+
+
+
+```java
+# UserDaoService.java
+
+    //사용자 삭제
+    @Override
+    public User removeUser(int id) {
+        Iterator<User> itUser = users.iterator();
+
+        //순차적으로 데이터를 관리하지 않기 위해서 list 대신 키 값으로 진행하는 map()을 사용하자!
+        //list -> 순차적인 데이터 지원O
+        //map(key,value) -> 순차적인 데이터 지원X, 중복O
+        //set -> 순차적인 데이터 지원X, 중복 허용X
+        while (itUser.hasNext()) {
+            User user = itUser.next();
+
+            if(user.getId() == id) {
+                itUser.remove();
+                return user;
+            }
+        }
+        return null;
+    }
+```
+
+
 
 
 
